@@ -6,7 +6,11 @@ Also included are primitive geometry methods to determine if various shapes (Cir
 
 # Reference links
 
+## Theory
 - [Ericson, Christer (2005) Real-Time Collision Detection](http://www.r-5.org/files/books/computers/algo-list/realtime-3d/Christer_Ericson-Real-Time_Collision_Detection-EN.pdf)
+- [Wikipedia QuadTree](https://en.wikipedia.org/wiki/Quadtree)
+
+## Implementations
 - [Connor 'Auios' Andrew Ngo (2020) Auios.QuadTree](https://github.com/Auios/Auios.QuadTree)
 - [Igor 'Leonidovia' (2017) UltimateQuadTree](https://github.com/leonidovia/UltimateQuadTree)
 
@@ -14,65 +18,28 @@ Portions of the QuadTree implementation were taken and modified directly from th
 
 ## What's contained in this project
 
-The root of the repository contains the out of the `dotnet new console` command,
-which generates a new console application that just prints out "Hello, World."
-It's a simple example, but great for demonstrating how easy GitLab CI is to
-use with .NET. Check out the `Program.cs` and `dotnetcore.csproj` files to
-see how these work.
+The root of the repository contains the project solution, this readme, and git/gitlab configuration files.
 
-In addition to the .NET Core content, there is a ready-to-go `.gitignore` file
-sourced from the the .NET Core [.gitignore](https://github.com/dotnet/core/blob/master/.gitignore). This
-will help keep your repository clean of build files and other configuration.
+The CollisionLib2D folder contains all source code, and the XunitTests folder contains some unit tests to validate basic functionality.
 
-Finally, the `.gitlab-ci.yml` contains the configuration needed for GitLab
-to build your code. Let's take a look, section by section.
 
-First, we note that we want to use the official Microsoft .NET SDK image
-to build our project.
+# Example
 
 ```
-image: microsoft/dotnet:latest
+	//create a 500x500 quadTree
+	var treeSizeX = 500;
+	var treeSizeY = 500;
+	var quadTree = new QuadTree(treeSizeX, treeSizeY);
+
+	//add 50 random 1x1 rectangles to the structure.
+	Random rnd = new Random();
+	for (var i = 0; i < 50; i++)
+	{
+		var rect = new Rectangle() { Width = 1.0f, Height = 1.0f, CenterX = rnd.Next(0,500), CenterY = rnd.Next(0,500) };
+		quadTree.Insert(rect);
+	}
+
+	//search a random 10x10 area to determine which rectangles are inside.
+	var searchRect = new Rectangle() { Width = 10.0f, Height = 10.0f, CenterX = rnd.Next(0,500), CenterY = rnd.Next(0,500) };
+	var neighbors = quadTree.FindObjects(searchRect);
 ```
-
-We're defining two stages here: `build`, and `test`. As your project grows
-in complexity you can add more of these.
-
-```
-stages:
-    - build
-    - test
-```
-
-Next, we define our build job which simply runs the `dotnet build` command and
-identifies the `bin` folder as the output directory. Anything in the `bin` folder
-will be automatically handed off to future stages, and is also downloadable through
-the web UI.
-
-```
-build:
-    stage: build
-    script:
-        - "dotnet build"
-    artifacts:
-      paths:
-        - bin/
-```
-
-Similar to the build step, we get our test output simply by running `dotnet test`.
-
-```
-test:
-    stage: test
-    script: 
-        - "dotnet test"
-```
-
-This should be enough to get you started. There are many, many powerful options 
-for your `.gitlab-ci.yml`. You can read about them in our documentation 
-[here](https://docs.gitlab.com/ee/ci/yaml/).
-
-## Developing with Gitpod
-
-This template repository also has a fully-automated dev setup for [Gitpod](https://docs.gitlab.com/ee/integration/gitpod.html).
-
-The `.gitpod.yml` ensures that, when you open this repository in Gitpod, you'll get a cloud workspace with .NET Core pre-installed, and your project will automatically be built and start running.
