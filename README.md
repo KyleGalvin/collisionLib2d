@@ -44,7 +44,8 @@ for (var i = 0; i < 50; i++)
 }
 
 //search a random 10x10 area to determine which rectangles are 'in the neighborhood' of the search area.
-//Note they may not necessarily overlap the rectangle. They are simply close enough that the QuadTree flags them as overlapping candidates.
+//Note they may not necessarily overlap the rectangle. 
+//They are simply close enough that the QuadTree flags them as overlapping candidates.
 var searchRect = new Rectangle() { Width = 10.0f, Height = 10.0f, CenterX = rnd.Next(0,500), CenterY = rnd.Next(0,500) };
 var neighbors = quadTree.FindObjects(searchRect);
 ```
