@@ -25,21 +25,21 @@ The CollisionLib2D folder contains all source code, and the XunitTests folder co
 
 # Example
 
-```
-	//create a 500x500 quadTree
-	var treeSizeX = 500;
-	var treeSizeY = 500;
-	var quadTree = new QuadTree(treeSizeX, treeSizeY);
+```csharp
+//create a 500x500 quadTree
+var treeSizeX = 500;
+var treeSizeY = 500;
+var quadTree = new QuadTree(treeSizeX, treeSizeY);
 
-	//add 50 random 1x1 rectangles to the structure.
-	Random rnd = new Random();
-	for (var i = 0; i < 50; i++)
-	{
-		var rect = new Rectangle() { Width = 1.0f, Height = 1.0f, CenterX = rnd.Next(0,500), CenterY = rnd.Next(0,500) };
-		quadTree.Insert(rect);
-	}
+//add 50 random 1x1 rectangles to the structure.
+Random rnd = new Random();
+for (var i = 0; i < 50; i++)
+{
+	var rect = new Rectangle() { Width = 1.0f, Height = 1.0f, CenterX = rnd.Next(0,500), CenterY = rnd.Next(0,500) };
+	quadTree.Insert(rect);
+}
 
-	//search a random 10x10 area to determine which rectangles are inside.
-	var searchRect = new Rectangle() { Width = 10.0f, Height = 10.0f, CenterX = rnd.Next(0,500), CenterY = rnd.Next(0,500) };
-	var neighbors = quadTree.FindObjects(searchRect);
+//search a random 10x10 area to determine which rectangles are inside.
+var searchRect = new Rectangle() { Width = 10.0f, Height = 10.0f, CenterX = rnd.Next(0,500), CenterY = rnd.Next(0,500) };
+var neighbors = quadTree.FindObjects(searchRect);
 ```
