@@ -25,6 +25,10 @@ The CollisionLib2D folder contains all source code, and the XunitTests folder co
 
 # Example
 
+Basic QuadTree usage involves creating a new QuadTree and filling its space with IBoundingArea implementations.
+
+Once the tree contains the objects we wish to query, we can call FindObjects() to search a local area for IBoundingArea neighbors in the vicinity of the search object.
+
 ```csharp
 //create a 500x500 quadTree
 var treeSizeX = 500;
@@ -39,7 +43,26 @@ for (var i = 0; i < 50; i++)
 	quadTree.Insert(rect);
 }
 
-//search a random 10x10 area to determine which rectangles are inside.
+//search a random 10x10 area to determine which rectangles are 'in the neighborhood' of the search area.
+//Note they may not necessarily overlap the rectangle. They are simply close enough that the QuadTree flags them as overlapping candidates.
 var searchRect = new Rectangle() { Width = 10.0f, Height = 10.0f, CenterX = rnd.Next(0,500), CenterY = rnd.Next(0,500) };
 var neighbors = quadTree.FindObjects(searchRect);
+```
+
+A QuadTree does not tell us with certainty if items overlap, only which are nearest the search area.
+
+To find which items in the neighbors set overlap, we can iterate over them in a second pass and see which intersect.
+
+```csharp
+//make a list to store items that are actually colliding
+List<IBoundingArea> collisions = new List<IBoundingArea>();
+
+//populate the list from the neighbor candidates
+foreach (var candidate in neighbors)
+{
+	if(searchRect.Intersects(candidate))
+	{
+		collisions.Add(candidate);
+	}
+}
 ```
