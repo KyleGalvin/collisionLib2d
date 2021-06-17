@@ -61,6 +61,7 @@ List<IBoundingArea> collisions = new List<IBoundingArea>();
 //populate the list from the neighbor candidates
 foreach (var candidate in neighbors)
 {
+	//various definitions for Intersects() are defined for circle/circle, rect/rect, rect/circle, and circle/rect.
 	if(searchRect.Intersects(candidate))
 	{
 		collisions.Add(candidate);
