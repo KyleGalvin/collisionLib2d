@@ -22,6 +22,6 @@ deploy:
   stage: deploy
   script:
     - dotnet pack -c Release
-    - dotnet nuget push "bin/Release/*.nupkg" --api-key $NugetApiKey  --source https://api.nuget.org/v3/index.json
+    - dotnet nuget push "CollisionLib2D/bin/Release/*.nupkg" --api-key $NugetApiKey  --source https://api.nuget.org/v3/index.json
   only:
     - master
