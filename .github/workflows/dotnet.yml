@@ -24,6 +24,6 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Publish
-      run: dotnet nuget push ./CollisionLib2D/bin/Release/*.nupkg -k ${GITHUB_TOKEN} -s https://nuget.pkg.github.com/longhorsestudios/index.json --skip-duplicate --no-symbols true 
+      run: dotnet nuget push CollisionLib2D/bin/Release/*.nupkg -k ${GITHUB_TOKEN} -s https://nuget.pkg.github.com/longhorsestudios/index.json --skip-duplicate --no-symbols true 
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
