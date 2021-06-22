@@ -23,8 +23,8 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-    - name: Mystery directory
-      run: ls
+    - name: Package
+      run: dotnet pack -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
     - name: Publish
       run: |
         dotnet nuget add source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --name github --username ${{ github.repository_owner }} --password ${{ github.token }} --store-password-in-clear-text
