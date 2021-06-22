@@ -26,4 +26,4 @@ jobs:
     - name: Package
       run: dotnet pack -c Release
     - name: Publish
-      run: dotnet nuget push "CollisionLib2D/bin/Release/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/longhorsestudios/index.json"
+      run: dotnet nuget push "CollisionLib2D/bin/Release/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/longhorsestudios/longhorse.collisionlib2d/index.json"
