@@ -1,4 +1,4 @@
-﻿using CollisionLib2D;
+﻿using LongHorse.CollisionLib2D;
 using System.Collections;
 using System.Collections.Generic;
 

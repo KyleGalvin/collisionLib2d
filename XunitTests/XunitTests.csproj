@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CollisionLib2D\CollisionLib2D.csproj" />
+    <ProjectReference Include="..\CollisionLib2D\LongHorse.CollisionLib2D.csproj" />
   </ItemGroup>
 
 </Project>

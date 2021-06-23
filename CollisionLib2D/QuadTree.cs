@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-namespace CollisionLib2D
+namespace LongHorse.CollisionLib2D
 {
     /// <summary>
     /// A tree data structure in which each node has exactly four children. 

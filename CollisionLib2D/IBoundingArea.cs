@@ -1,4 +1,4 @@
-﻿namespace CollisionLib2D
+﻿namespace LongHorse.CollisionLib2D
 {
     /// <summary>
     /// IBoundingArea is the minimum interface any object needs to implement in order to be placed into a QuadTree

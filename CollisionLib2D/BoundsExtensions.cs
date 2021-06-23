@@ -1,4 +1,4 @@
-﻿namespace CollisionLib2D
+﻿namespace LongHorse.CollisionLib2D
 {
     public static class BoundsExtensions
     {
