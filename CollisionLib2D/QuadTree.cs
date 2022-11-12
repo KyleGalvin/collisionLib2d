@@ -200,8 +200,15 @@ namespace LongHorse.CollisionLib2D
         /// <returns>an array of objects.</returns>
         public IBoundingArea[] FindObjects(IBoundingArea searchArea)
         {
+            
+            if (!Area.Intersects(searchArea))
+            {
+                return new IBoundingArea[0];
+            }
+
             List<IBoundingArea> foundObjects = new List<IBoundingArea>();
-            if(_hasChildren)
+
+            if (_hasChildren)
             {
                 foundObjects.AddRange(_quad_TL.FindObjects(searchArea));
                 foundObjects.AddRange(_quad_TR.FindObjects(searchArea));
@@ -210,10 +217,7 @@ namespace LongHorse.CollisionLib2D
             }
             else
             {
-                if(Area.Intersects(searchArea))
-                {
-                    foundObjects.AddRange(_objects);
-                }
+                foundObjects.AddRange(_objects);
             }
 
             HashSet<IBoundingArea> result = new HashSet<IBoundingArea>();
