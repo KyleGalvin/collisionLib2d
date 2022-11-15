@@ -4,6 +4,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/longhorsestudios/longhorse.collisionlib2d</RepositoryUrl>
+    <PackageId>LongHorse.CollisionLib2D</PackageId>
+    <Company>LongHorse</Company>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>
