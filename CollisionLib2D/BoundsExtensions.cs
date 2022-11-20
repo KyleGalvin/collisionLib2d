@@ -49,7 +49,7 @@
         /// <returns>true if the two circles overlap</returns>
         public static bool Intersects(this Circle c1, Circle c2)
         {
-            return ((c1.Radius + c2.Radius) * (c1.Radius + c2.Radius)) > ((c1.CenterX - c2.CenterX) * (c1.CenterX - c2.CenterX)) + ((c1.CenterY - c2.CenterY) * (c1.CenterY - c2.CenterY));
+            return ((c1.Radius + c2.Radius) * (c1.Radius + c2.Radius)) > ((c1.Center.X - c2.Center.X) * (c1.Center.X - c2.Center.X)) + ((c1.Center.Y - c2.Center.Y) * (c1.Center.Y - c2.Center.Y));
         }
 
         /// <summary>Determines if the circle overlaps with the rectangle</summary>
@@ -72,7 +72,7 @@
             {
                 //the circle will intersect with the rect at a left or right line segment.
                 //the circles Y value will match the rect X value at the point nearest the center
-                nearestRectPointY = c.CenterY;
+                nearestRectPointY = c.Center.Y;
             }
 
             if(c.Right < r.Left)
@@ -87,9 +87,9 @@
             {
                 //the circle will intersect with the rect at a top or bottom line segment.
                 //the circles X value will match the rect X value at the point nearest the center
-                nearestRectPointX = c.CenterX;
+                nearestRectPointX = c.Center.X;
             }
-            return ((c.Radius) * (c.Radius)) > ((c.CenterX - nearestRectPointX) * (c.CenterX - nearestRectPointX)) + ((c.CenterY - nearestRectPointY) * (c.CenterY - nearestRectPointY));
+            return ((c.Radius) * (c.Radius)) > ((c.Center.X - nearestRectPointX) * (c.Center.X - nearestRectPointX)) + ((c.Center.Y - nearestRectPointY) * (c.Center.Y - nearestRectPointY));
         }
 
         /// <summary>Determines if the circle overlaps with the rectangle</summary>

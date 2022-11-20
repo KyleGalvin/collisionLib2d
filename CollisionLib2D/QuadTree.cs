@@ -89,9 +89,9 @@ namespace LongHorse.CollisionLib2D
             int nextLevel = CurrentLevel + 1;
             _hasChildren = true;
             _quad_TL = new QuadTree(Area.Left, Area.Top, Area.HalfWidth, Area.HalfHeight, MaxObjects, MaxLevel, nextLevel);
-            _quad_TR = new QuadTree(Area.CenterX, Area.Top, Area.HalfWidth, Area.HalfHeight, MaxObjects, MaxLevel, nextLevel);
-            _quad_BL = new QuadTree(Area.Left, Area.CenterY, Area.HalfWidth, Area.HalfHeight, MaxObjects, MaxLevel, nextLevel);
-            _quad_BR = new QuadTree(Area.CenterX, Area.CenterY, Area.HalfWidth, Area.HalfHeight, MaxObjects, MaxLevel, nextLevel);
+            _quad_TR = new QuadTree(Area.Center.X, Area.Top, Area.HalfWidth, Area.HalfHeight, MaxObjects, MaxLevel, nextLevel);
+            _quad_BL = new QuadTree(Area.Left, Area.Center.Y, Area.HalfWidth, Area.HalfHeight, MaxObjects, MaxLevel, nextLevel);
+            _quad_BR = new QuadTree(Area.Center.X, Area.Center.Y, Area.HalfWidth, Area.HalfHeight, MaxObjects, MaxLevel, nextLevel);
 
             foreach (var obj in _objects)
             {

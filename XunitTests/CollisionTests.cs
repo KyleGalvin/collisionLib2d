@@ -1,6 +1,7 @@
 ﻿using LongHorse.CollisionLib2D;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using Xunit;
 
 namespace XunitTests
@@ -9,8 +10,8 @@ namespace XunitTests
     [Trait("Category", "Unit")]
     public class CollisionTests
     {
-        Rectangle _unitRectangle = new Rectangle() { Width = 1.0f, Height = 1.0f, CenterX = 0.0f, CenterY = 0.0f };
-        Circle _unitCircle = new Circle() { Radius = 0.5f, CenterX = 0, CenterY = 0 };
+        Rectangle _unitRectangle = new Rectangle() { Size = new Vector2(1.0f, 1.0f), Center = new Vector2(0.0f, 0.0f) };
+        Circle _unitCircle = new Circle() { Radius = 0.5f, Center = new Vector2(0.0f, 0.0f) };
 
         [Theory]
         [ClassData(typeof(CircleGenerator))]
@@ -44,7 +45,7 @@ namespace XunitTests
 
             for (var i = 0; i < numberOfObjects; i++)
             {
-                var _unitRectCopy = new Rectangle() { Width = _unitRectangle.Width, Height = _unitRectangle.Height, CenterX = _unitRectangle.CenterX, CenterY = _unitRectangle.CenterY };
+                var _unitRectCopy = new Rectangle() { Size = _unitRectangle.Size, Center = _unitRectangle.Center };
                 quadTree.Insert(_unitRectCopy);
             }
 
@@ -61,7 +62,7 @@ namespace XunitTests
 
             for (var i = 0; i < numberOfObjects; i++)
             {
-                var _unitRectCopy = new Rectangle() { Width = _unitRectangle.Width, Height = _unitRectangle.Height, CenterX = _unitRectangle.CenterX, CenterY = _unitRectangle.CenterY };
+                var _unitRectCopy = new Rectangle() { Size = _unitRectangle.Size, Center = _unitRectangle.Center};
                 quadTree.Insert(_unitRectCopy);
             }
 
@@ -85,12 +86,12 @@ namespace XunitTests
             //20 objects in 2 distant piles of 10.
             for (var i = 0; i < numberOfObjects; i++)
             {
-                quadTree.Insert(new Rectangle() { Width = _unitRectangle.Width, Height = _unitRectangle.Height, CenterX = position1, CenterY = position1 });
-                quadTree.Insert(new Rectangle() { Width = _unitRectangle.Width, Height = _unitRectangle.Height, CenterX = position2, CenterY = position2 });
+                quadTree.Insert(new Rectangle() { Size = _unitRectangle.Size, Center = new Vector2(position1, position1) });
+                quadTree.Insert(new Rectangle() { Size = _unitRectangle.Size, Center = new Vector2(position2, position2) });
             }
 
-            var neighbors1 = quadTree.FindObjects(new Rectangle() { Width = _unitRectangle.Width, Height = _unitRectangle.Height, CenterX = position1, CenterY = position1 });
-            var neighbors2 = quadTree.FindObjects(new Rectangle() { Width = _unitRectangle.Width, Height = _unitRectangle.Height, CenterX = position2, CenterY = position2 });
+            var neighbors1 = quadTree.FindObjects(new Rectangle() { Size = _unitRectangle.Size, Center = new Vector2(position1, position1) });
+            var neighbors2 = quadTree.FindObjects(new Rectangle() { Size = _unitRectangle.Size, Center = new Vector2(position2, position2) });
 
             var n1List = new List<IBoundingArea>();
             n1List.AddRange(neighbors1);
@@ -116,16 +117,16 @@ namespace XunitTests
             //20 objects in 2 distant piles of 10.
             for (var i = 0; i < numberOfObjects; i++)
             {
-                quadTree.Insert(new Rectangle() { Width = _unitRectangle.Width, Height = _unitRectangle.Height, CenterX = position1, CenterY = position1 });
-                quadTree.Insert(new Rectangle() { Width = _unitRectangle.Width, Height = _unitRectangle.Height, CenterX = position2, CenterY = position2 });
+                quadTree.Insert(new Rectangle() { Size = _unitRectangle.Size, Center = new Vector2(position1, position1) });
+                quadTree.Insert(new Rectangle() { Size = _unitRectangle.Size, Center = new Vector2(position2, position2) });
             }
 
             //this big item covers both piles. (The entire tree area)
-            var bigRect = new Rectangle() { Width = treeSize, Height = treeSize, CenterX = 250, CenterY = 250 };
+            var bigRect = new Rectangle() { Size = new Vector2(treeSize, treeSize), Center = new Vector2(250, 250) };
             quadTree.Insert(bigRect);
 
-            var neighbors1 = quadTree.FindObjects(new Rectangle() { Width = _unitRectangle.Width, Height = _unitRectangle.Height, CenterX = position1, CenterY = position1 });
-            var neighbors2 = quadTree.FindObjects(new Rectangle() { Width = _unitRectangle.Width, Height = _unitRectangle.Height, CenterX = position2, CenterY = position2 });
+            var neighbors1 = quadTree.FindObjects(new Rectangle() { Size = _unitRectangle.Size, Center = new Vector2(position1, position1) });
+            var neighbors2 = quadTree.FindObjects(new Rectangle() { Size = _unitRectangle.Size, Center = new Vector2(position2, position2) });
 
             var bigNeighbors = quadTree.FindObjects(bigRect);
 

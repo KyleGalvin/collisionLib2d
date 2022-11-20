@@ -1,14 +1,16 @@
-﻿namespace LongHorse.CollisionLib2D
+﻿using System.Numerics;
+
+namespace LongHorse.CollisionLib2D
 {
     public class Circle : IBoundingArea
     {
-        public float CenterX { get; set; }
-        public float CenterY { get; set; }
+        public Vector2 Center { get; set; }
+
         public float Radius;
-        public float Left => CenterX - Radius;
-        public float Right => CenterX + Radius;
-        public float Top => CenterY - Radius;
-        public float Bottom => CenterY + Radius;
+        public float Left => Center.X - Radius;
+        public float Right => Center.X + Radius;
+        public float Top => Center.Y - Radius;
+        public float Bottom => Center.Y + Radius;
         public BoundingType BoundingType => BoundingType.Circle;
     }
 }
