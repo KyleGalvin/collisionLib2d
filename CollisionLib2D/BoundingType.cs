@@ -3,6 +3,7 @@
     public enum BoundingType
     {
         Circle,
-        Rectangle
+        Rectangle,
+        Triangle
     }
 }

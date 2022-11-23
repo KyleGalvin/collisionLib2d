@@ -1,4 +1,7 @@
-﻿namespace LongHorse.CollisionLib2D
+﻿using System;
+using System.Numerics;
+
+namespace LongHorse.CollisionLib2D
 {
     public static class BoundsExtensions
     {
@@ -52,44 +55,77 @@
             return ((c1.Radius + c2.Radius) * (c1.Radius + c2.Radius)) > ((c1.Center.X - c2.Center.X) * (c1.Center.X - c2.Center.X)) + ((c1.Center.Y - c2.Center.Y) * (c1.Center.Y - c2.Center.Y));
         }
 
+        public static Vector2 NearestPoint(this Vector2 p, Rectangle r) 
+        {
+            return new Vector2(
+                    MathF.Min(MathF.Max(p.X, r.Left), r.Right),
+                    MathF.Min(MathF.Max(p.Y, r.Top), r.Bottom)
+                );
+        }
+
+        public static Vector2 NearestPoint(this Vector2 p, Triangle r)
+        {
+            // check if P in vertex region outside A
+            Vector2 ab = r.Points[1] - r.Points[0];
+            Vector2 ac = r.Points[2] - r.Points[0];
+            Vector2 ap = p - r.Points[0];
+            float d1 = Vector2.Dot(ab, ap);
+            float d2 = Vector2.Dot(ac, ap);
+            if (d1 <= 0.0f && d2 <= 0.0f) return r.Points[0]; // barycentric coordinates (1,0,0)
+
+            // check if P in vertex region outside B
+            Vector2 bp = p - r.Points[1];
+            float d3 = Vector2.Dot(ab, bp);
+            float d4 = Vector2.Dot(ac, bp);
+            if (d3 >= 0.0f && d4 <= d3) return r.Points[1]; // barycentric coordinates (0,1,0)
+
+            // check if P in edge region of AB, if so return projection of P onto AB
+            float vc = d1 * d4 - d3 * d2;
+            float v;
+            if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f) 
+            {
+                v = d1 / (d1 - d3);
+                return r.Points[0] + v * ab;
+            }
+
+            // check if P in vertex region outside C
+            Vector2 cp = p - r.Points[2];
+            float d5 = Vector2.Dot(ab, cp);
+            float d6 = Vector2.Dot(ac, cp);
+            if(d6 >= 0.0f && d5 <= d6) return r.Points[2]; // barycentric coordinates (0,0,1)
+
+            // check if P in edge region of AC, if so return projection of P onto AC
+            float vb = d5 * d2 - d1 * d6;
+            float w;
+            if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f) 
+            {
+                w = d2 / (d2 - d6);
+                return r.Points[0] + w * ac;
+            }
+
+            // check if P in edge region of BC, if so return projection of P onto BC
+            float va = d3 * d6 - d5 * d4;
+            if (va <= 0.0f && (d4 - d3) > 0.0f && (d5 - d6) >= 0.0f) 
+            {
+                w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+                return r.Points[1] + w * (r.Points[2] - r.Points[1]);
+            }
+
+            // P inside face region. Compute Q through its barycentric coordinates (u,v,w)
+            float denom = 1.0f / (va + vb + vc);
+            v = vb * denom;
+            w = vc * denom;
+            return r.Points[0] + ab * v + ac * w;
+        }
+
         /// <summary>Determines if the circle overlaps with the rectangle</summary>
         /// <param name="c">The circle</param>
         /// <param name="r">The rectangle</param>
         /// <returns>true if the circle and rectangle overlap</returns>
         public static bool Intersects(this Circle c, Rectangle r)
         {
-            float nearestRectPointX;
-            float nearestRectPointY;
-            if(c.Bottom < r.Top)
-            {
-                nearestRectPointY = r.Top;
-            } 
-            else if(c.Top > r.Bottom)
-            {
-                nearestRectPointY = r.Bottom;
-            }
-            else
-            {
-                //the circle will intersect with the rect at a left or right line segment.
-                //the circles Y value will match the rect X value at the point nearest the center
-                nearestRectPointY = c.Center.Y;
-            }
-
-            if(c.Right < r.Left)
-            {
-                nearestRectPointX = r.Left;
-            }
-            else if(c.Left > r.Right)
-            {
-                nearestRectPointX = r.Right;
-            }
-            else
-            {
-                //the circle will intersect with the rect at a top or bottom line segment.
-                //the circles X value will match the rect X value at the point nearest the center
-                nearestRectPointX = c.Center.X;
-            }
-            return ((c.Radius) * (c.Radius)) > ((c.Center.X - nearestRectPointX) * (c.Center.X - nearestRectPointX)) + ((c.Center.Y - nearestRectPointY) * (c.Center.Y - nearestRectPointY));
+            var nearestPoint = c.Center.NearestPoint(r);
+            return ((c.Radius) * (c.Radius)) > ((c.Center.X - nearestPoint.X) * (c.Center.X - nearestPoint.X)) + ((c.Center.Y - nearestPoint.Y) * (c.Center.Y - nearestPoint.Y));
         }
 
         /// <summary>Determines if the circle overlaps with the rectangle</summary>

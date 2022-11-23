@@ -103,4 +103,37 @@ namespace XunitTests
         }
     }
 
+    public class NearestPointToTriangleGenerator : IEnumerable<object[]>
+    {
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            // a right angle triangle with edges of length 3, 4, and 5.
+            // the right angled point is at the origin
+            var triangle345 = new Triangle { 
+                Points = new Vector2[] { 
+                    new Vector2(0.0f, 0.0f),
+                    new Vector2(3.0f, 0.0f),
+                    new Vector2(0.0f, 4.0f)
+                } 
+            };
+
+            //nearest points touching the triangle while in the triangle is the input point
+            yield return new object[] { triangle345, new Vector2(1.0f, 1.0f), new Vector2(1.0f, 1.0f) };
+            yield return new object[] { triangle345, new Vector2(3.0f, 0.0f), new Vector2(3.0f, 0.0f) };
+            yield return new object[] { triangle345, new Vector2(0.0f, 0.0f), new Vector2(0.0f, 0.0f) };
+            yield return new object[] { triangle345, new Vector2(0.0f, 4.0f), new Vector2(0.0f, 4.0f) };
+
+            //nearest point outside of the triangle can be the triangle vertecies
+            yield return new object[] { triangle345, new Vector2(4.0f, -1.0f), new Vector2(3.0f, 0.0f) };
+            yield return new object[] { triangle345, new Vector2(-1.0f, -1.0f), new Vector2(0.0f, 0.0f) };
+            yield return new object[] { triangle345, new Vector2(-1.0f, 5.0f), new Vector2(0.0f, 4.0f) };
+
+            // nearest point outside of the triangle can be along the triangle edges
+            yield return new object[] { triangle345, new Vector2(2.0f, -1.0f), new Vector2(2.0f, 0.0f) };
+            yield return new object[] { triangle345, new Vector2(-1.0f, 1.5f), new Vector2(0.0f, 1.5f) };
+            yield return new object[] { triangle345, new Vector2(2.0f, 2.0f), new Vector2(1.68f, 1.76f) };
+        }
+    }
+
 }
