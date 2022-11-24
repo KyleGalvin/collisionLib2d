@@ -39,14 +39,16 @@ var quadTree = new QuadTree(treeSizeX, treeSizeY);
 Random rnd = new Random();
 for (var i = 0; i < 50; i++)
 {
-	var rect = new Rectangle() { Width = 1.0f, Height = 1.0f, CenterX = rnd.Next(0,500), CenterY = rnd.Next(0,500) };
+	//Size.X and Size.Y are width and height of the rectangle.
+	//randomly position the center of the rectangle.
+	var rect = new Rectangle() { Size = new Vector2(1.0f, 1.0f), Center = new Vector2(rnd.Next(0,500), rnd.Next(0,500)) };
 	quadTree.Insert(rect);
 }
 
 //search a random 10x10 area to determine which rectangles are 'in the neighborhood' of the search area.
 //Note they may not necessarily overlap the rectangle. 
 //They are simply close enough that the QuadTree flags them as overlapping candidates.
-var searchRect = new Rectangle() { Width = 10.0f, Height = 10.0f, CenterX = rnd.Next(0,500), CenterY = rnd.Next(0,500) };
+var searchRect = new Rectangle() { Size = new Vector2(10.0f, 10.0f), Center = new Vector2(rnd.Next(0,500), rnd.Next(0,500))};
 var neighbors = quadTree.FindObjects(searchRect);
 ```
 
