@@ -159,6 +159,9 @@ namespace LongHorse.CollisionLib2D
             var v2 = t.Points[2] - r.Center;
 
             //compute edge vectors for triangle
+            var f0 = v1 - v0;
+            var f1 = v2 - v1;
+            var f2 = v0 - v2;
             throw new NotImplementedException();
         }
     }
