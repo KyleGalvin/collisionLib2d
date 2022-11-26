@@ -22,7 +22,6 @@ The root of the repository contains the project solution, this readme, and git/g
 
 The CollisionLib2D folder contains all source code, and the XunitTests folder contains some unit tests to validate basic functionality.
 
-
 # Example
 
 Basic QuadTree usage involves creating a new QuadTree and filling its space with IBoundingArea implementations.

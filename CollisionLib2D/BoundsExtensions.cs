@@ -52,7 +52,8 @@ namespace LongHorse.CollisionLib2D
         /// <returns>true if the two circles overlap</returns>
         public static bool Intersects(this Circle c1, Circle c2)
         {
-            return ((c1.Radius + c2.Radius) * (c1.Radius + c2.Radius)) > ((c1.Center.X - c2.Center.X) * (c1.Center.X - c2.Center.X)) + ((c1.Center.Y - c2.Center.Y) * (c1.Center.Y - c2.Center.Y));
+            var delta = c1.Center - c2.Center;
+            return ((c1.Radius + c2.Radius) * (c1.Radius + c2.Radius)) > ((delta.X) * (delta.X)) + ((delta.Y) * (delta.Y));
         }
 
         public static Vector2 NearestPoint(this Vector2 p, Rectangle r) 
@@ -124,8 +125,9 @@ namespace LongHorse.CollisionLib2D
         /// <returns>true if the circle and rectangle overlap</returns>
         public static bool Intersects(this Circle c, Rectangle r)
         {
-            var nearestPoint = c.Center.NearestPoint(r);
-            return ((c.Radius) * (c.Radius)) > ((c.Center.X - nearestPoint.X) * (c.Center.X - nearestPoint.X)) + ((c.Center.Y - nearestPoint.Y) * (c.Center.Y - nearestPoint.Y));
+            var p = c.Center.NearestPoint(r);
+            var delta = p - c.Center;
+            return (c.Radius * c.Radius) > Vector2.Dot(delta, delta);
         }
 
         /// <summary>Determines if the circle overlaps with the rectangle</summary>
@@ -135,6 +137,29 @@ namespace LongHorse.CollisionLib2D
         public static bool Intersects(this Rectangle r, Circle c)
         {
             return c.Intersects(r);
+        }
+
+        public static bool Intersects(this Triangle t, Circle c)
+        {
+            var p = c.Center.NearestPoint(t);
+            var delta = p - c.Center;
+            return (c.Radius * c.Radius) > Vector2.Dot(delta, delta);
+        }
+
+        public static bool Intersects(this Circle c, Triangle t)
+        {
+            return t.Intersects(c);
+        }
+
+        public static bool Intersects(this Triangle t, Rectangle r) 
+        {
+            //translate triangle as conceptually moving rectangle to origin
+            var v0 = t.Points[0] - r.Center;
+            var v1 = t.Points[1] - r.Center;
+            var v2 = t.Points[2] - r.Center;
+
+            //compute edge vectors for triangle
+            throw new NotImplementedException();
         }
     }
 }
