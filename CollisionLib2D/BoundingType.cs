@@ -4,6 +4,7 @@
     {
         Circle,
         Rectangle,
-        Triangle
+        Triangle,
+        LineSegment
     }
 }

@@ -6,8 +6,13 @@ namespace LongHorse.CollisionLib2D
     public class Triangle : IBoundingArea
     {
         public Vector2[] Points = new Vector2[3];
-        public Vector2 Center { 
-            get { return new Vector2((Left + Right) / 2.0f, (Top + Bottom) / 2.0f); } 
+        public Vector2 Center {
+            get {
+                //centroid
+                var ab = Points[0] + Points[1] / 2.0f;
+                var ac = Points[0] + Points[2] / 2.0f;
+                return new LineSegment(ab, Points[2]).Intersection(new LineSegment(ac, Points[1]));
+            }
             set { 
                 var delta = value - Center; //translate all points from the existing center to the new center
                 Points[0] += delta;
