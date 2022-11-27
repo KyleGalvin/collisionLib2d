@@ -101,6 +101,16 @@ namespace LongHorse.CollisionLib2D
             return LineSegmentsIntersect(a.Points[0], a.Points[1], b.Points[0], b.Points[1]);
         }
 
+        public static Vector2 NearestPoint(Vector2 p, Circle c) 
+        {
+            //V = (P - C); Answer = C + V / | V | *R;
+            var delta = p - c.Center;
+            var deltaLength = delta.Length();
+            if (deltaLength <= c.Radius) return p;
+            return c.Center + delta / deltaLength * c.Radius;
+
+        }
+
         public static Vector2 NearestPoint(Vector2 p, Vector2 a1, Vector2 a2) 
         {
             var ab = a2 - a1;
