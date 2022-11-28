@@ -1,28 +1,32 @@
-## Introduction
+# Table Of Contents
+1. [Introduction](#introduction)
+2. [Contents](#contents)
+	a. [Primitives](#primitives)
+	b. [NearestPoint](#nearest)
+	c. [Intersections](#intersections)
+	d. [Spatial Partitioning](#partitioning)
+3. [References](#references)
+	a. [Theory](#theory)
+	b. [Implementations](#implementations)
+# <a name="introduction"></a> Introduction 
 
 This is a C# QuadTree implementation derived from others I've seen and modified to suit my own style and needs.
 
-Also included are primitive geometry methods to determine if various shapes (Circles, Rectangles) are intersecting.
+Also included are primitive geometry methods to determine if various shapes (Circles, Rectangles, Triangles, Line Segments) are intersecting.
 
-# Reference links
-
-## Theory
-- [Ericson, Christer (2005) Real-Time Collision Detection](http://www.r-5.org/files/books/computers/algo-list/realtime-3d/Christer_Ericson-Real-Time_Collision_Detection-EN.pdf)
-- [Wikipedia QuadTree](https://en.wikipedia.org/wiki/Quadtree)
-
-## Implementations
-- [Connor 'Auios' Andrew Ngo (2020) Auios.QuadTree](https://github.com/Auios/Auios.QuadTree)
-- [Igor 'Leonidovia' (2017) UltimateQuadTree](https://github.com/leonidovia/UltimateQuadTree)
-
-Portions of the QuadTree implementation were taken and modified directly from the Auios project.
-
-## What's contained in this project
+# <a name="contents"></a> Contents
 
 The root of the repository contains the project solution, this readme, and git/gitlab configuration files.
 
 The CollisionLib2D folder contains all source code, and the XunitTests folder contains some unit tests to validate basic functionality.
 
-# Example
+## <a name="primitives"></a> Primitives
+
+## <a name="nearest"></a> Nearest Point
+
+## <a name="intersections"></a> Intersections
+
+## <a name="partitioning"></a> Spatial Partitioning
 
 Basic QuadTree usage involves creating a new QuadTree and filling its space with IBoundingArea implementations.
 
@@ -69,3 +73,15 @@ foreach (var candidate in neighbors)
 	}
 }
 ```
+
+# <a name="references"></a> References 
+
+## <a name="theory"></a> Theory
+- [Ericson, Christer (2005) Real-Time Collision Detection](http://www.r-5.org/files/books/computers/algo-list/realtime-3d/Christer_Ericson-Real-Time_Collision_Detection-EN.pdf)
+- [Wikipedia QuadTree](https://en.wikipedia.org/wiki/Quadtree)
+
+## <a name="implementations"></a> Implementations
+- [Connor 'Auios' Andrew Ngo (2020) Auios.QuadTree](https://github.com/Auios/Auios.QuadTree)
+- [Igor 'Leonidovia' (2017) UltimateQuadTree](https://github.com/leonidovia/UltimateQuadTree)
+
+Portions of the QuadTree implementation were taken and modified directly from the Auios project.
