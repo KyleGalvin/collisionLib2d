@@ -1,13 +1,14 @@
 # Table Of Contents
-1. [Introduction](#introduction)
-2. [Contents](#contents)
-	a. [Primitives](#primitives)
-	b. [NearestPoint](#nearest)
-	c. [Intersections](#intersections)
-	d. [Spatial Partitioning](#partitioning)
-3. [References](#references)
-	a. [Theory](#theory)
-	b. [Implementations](#implementations)
+- [Introduction](#introduction)
+- [Contents](#contents)
+	- [Primitives](#primitives)
+	- [NearestPoint](#nearest)
+	- [Intersections](#intersections)
+	- [Spatial Partitioning](#partitioning)
+- [References](#references)
+	- [Theory](#theory)
+	- [Implementations](#implementations)
+
 # <a name="introduction"></a> Introduction 
 
 This is a C# QuadTree implementation derived from others I've seen and modified to suit my own style and needs.
