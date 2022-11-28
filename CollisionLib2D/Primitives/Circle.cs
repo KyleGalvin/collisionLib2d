@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace LongHorse.CollisionLib2D
+namespace LongHorse.CollisionLib2D.Primitives
 {
     public class Circle : IBoundingArea
     {

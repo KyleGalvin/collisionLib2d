@@ -1,4 +1,4 @@
-﻿namespace LongHorse.CollisionLib2D
+﻿namespace LongHorse.CollisionLib2D.Primitives
 {
     public enum BoundingType
     {

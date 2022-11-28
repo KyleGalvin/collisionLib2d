@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using LongHorse.CollisionLib2D.Primitives;
 
 namespace LongHorse.CollisionLib2D
 {

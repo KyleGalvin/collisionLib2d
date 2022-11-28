@@ -1,4 +1,5 @@
 ﻿using LongHorse.CollisionLib2D;
+using LongHorse.CollisionLib2D.Primitives;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
