@@ -1,7 +1,13 @@
 # Table Of Contents
 - [Introduction](#introduction)
+- [Installation](#installation)
 - [Contents](#contents)
 	- [Primitives](#primitives)
+		- [IBoundingArea](#bounding)
+		- [Rectangle](#rectangle)
+		- [Circle](#circle)
+		- [Triangle](#triangle)
+		- [Line Segment](#line)
 	- [NearestPoint](#nearest)
 	- [Intersections](#intersections)
 	- [Spatial Partitioning](#partitioning)
@@ -11,9 +17,15 @@
 
 # <a id="introduction"></a> Introduction 
 
-This is a C# QuadTree implementation derived from others I've seen and modified to suit my own style and needs.
+This is a collision detection toolkit written in C#.
 
-Also included are primitive geometry methods to determine if various shapes (Circles, Rectangles, Triangles, Line Segments) are intersecting.
+It provides geometry primitives for Circles, Rectangles, Triangles, and Line Segments, as well as a QuadTree structure for spatial partitioning.
+
+Each of these primitives implements a standardized interface allowing them to be placed in the QuadTree for broad-phase quick culling.
+
+These primitives also have a complete set of pairwise collision detection methods. That is to say this library can determine if any two given primitives are intersecting, regardless of which of the primitives are provided.
+
+# <a id="installation"></a> Installation 
 
 # <a id="contents"></a> Contents
 
@@ -22,6 +34,16 @@ The root of the repository contains the project solution, this readme, and git/g
 The CollisionLib2D folder contains all source code, and the XunitTests folder contains some unit tests to validate basic functionality.
 
 ## <a id="primitives"></a> Primitives
+
+### <a id="bounding"></a> IBoundingArea
+
+### <a id="rectangle"></a> Rectangle
+
+### <a id="circle"></a> Circle
+
+### <a id="triangle"></a> Triangle
+
+### <a id="line"></a> LineSegment
 
 ## <a id="nearest"></a> Nearest Point
 
