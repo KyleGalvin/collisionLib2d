@@ -15,7 +15,7 @@
 	- [Theory](#theory)
 	- [Implementations](#implementations)
 
-# <a id="introduction"></a> Introduction 
+# <a id="introduction"></a>Introduction 
 
 This is a collision detection toolkit written in C#.
 
@@ -25,31 +25,43 @@ Each of these primitives implements a standardized interface allowing them to be
 
 These primitives also have a complete set of pairwise collision detection methods. That is to say this library can determine if any two given primitives are intersecting, regardless of which of the primitives are provided.
 
-# <a id="installation"></a> Installation 
+# <a id="installation"></a>Installation 
 
-# <a id="contents"></a> Contents
+Setup this registry from the command line:
+```
+dotnet nuget add source --name LongHorse https://gitea.longhorse.studio/api/packages/LongHorse/nuget/index.json
+```
+To install the package using NuGet, run the following command:
+```
+dotnet add package --source LongHorse --version <VERSION> LongHorse.CollisionLib2D
+```
+# <a id="contents"></a>Contents
 
 The root of the repository contains the project solution, this readme, and git/gitlab configuration files.
 
 The CollisionLib2D folder contains all source code, and the XunitTests folder contains some unit tests to validate basic functionality.
 
-## <a id="primitives"></a> Primitives
+## <a id="primitives"></a>Primitives
 
-### <a id="bounding"></a> IBoundingArea
+### <a id="bounding"></a>IBoundingArea
 
-### <a id="rectangle"></a> Rectangle
+IBoundingArea is the common interface for all our shape primitives. This allows us to manage lists of mixed types while being able to query for basic information like global X and Y boundaries, and the ability to translate the objects global coordinates. There is also a BoundingType enum which allows us to down-cast to the underlying primitive to access more concrete geometrical properties.
 
-### <a id="circle"></a> Circle
+X and Y boundaries (Top, Bottom, Left, Right) are read-only on the interface. Methods to resize shapes are left to the concrete implementation.
 
-### <a id="triangle"></a> Triangle
+### <a id="rectangle"></a>Rectangle
 
-### <a id="line"></a> LineSegment
+### <a id="circle"></a>Circle
 
-## <a id="nearest"></a> Nearest Point
+### <a id="triangle"></a>Triangle
 
-## <a id="intersections"></a> Intersections
+### <a id="line"></a>LineSegment
 
-## <a id="partitioning"></a> Spatial Partitioning
+## <a id="nearest"></a>Nearest Point
+
+## <a id="intersections"></a>Intersections
+
+## <a id="partitioning"></a>Spatial Partitioning
 
 Basic QuadTree usage involves creating a new QuadTree and filling its space with IBoundingArea implementations.
 
