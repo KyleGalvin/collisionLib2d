@@ -81,6 +81,8 @@ For each of the IBoundingArea implementations, the NearestPoint method will dete
 
 ## <a id="intersections"></a>Intersections
 
+For each of the 16 primitive shape pairings, one of 10 distinct algorithms can be invoked to determine if the two primitives intersect.
+
 ## <a id="partitioning"></a>Spatial Partitioning
 
 Basic QuadTree usage involves creating a new QuadTree and filling its space with IBoundingArea implementations.
