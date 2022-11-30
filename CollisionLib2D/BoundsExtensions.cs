@@ -57,14 +57,6 @@ namespace LongHorse.CollisionLib2D
             return ((c1.Radius + c2.Radius) * (c1.Radius + c2.Radius)) > ((delta.X) * (delta.X)) + ((delta.Y) * (delta.Y));
         }
 
-        public static Vector2 NearestPoint(this Vector2 p, Rectangle r) 
-        {
-            return new Vector2(
-                    MathF.Min(MathF.Max(p.X, r.Left), r.Right),
-                    MathF.Min(MathF.Max(p.Y, r.Top), r.Bottom)
-                );
-        }
-
         public static bool LineSegmentsIntersect(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) 
         {
             Vector2 deltaA = a2 - a1;
@@ -100,85 +92,6 @@ namespace LongHorse.CollisionLib2D
         public static bool Intersects(this LineSegment a, LineSegment b) 
         {
             return LineSegmentsIntersect(a.Points[0], a.Points[1], b.Points[0], b.Points[1]);
-        }
-
-        public static Vector2 NearestPoint(Vector2 p, Circle c) 
-        {
-            //V = (P - C); Answer = C + V / | V | *R;
-            var delta = p - c.Center;
-            var deltaLength = delta.Length();
-            if (deltaLength <= c.Radius) return p;
-            return c.Center + delta / deltaLength * c.Radius;
-
-        }
-
-        public static Vector2 NearestPoint(Vector2 p, Vector2 a1, Vector2 a2) 
-        {
-            var ab = a2 - a1;
-            var t = Vector2.Dot(p - a1, ab) / Vector2.Dot(ab, ab);
-            if (t < 0.0f) t = 0.0f;
-            if (t > 1.0f) t = 1.0f;
-            return a1 + t * ab;
-        }
-
-        public static Vector2 NearestPoint(this Vector2 p, LineSegment a) 
-        {
-            return NearestPoint(p, a.Points[0], a.Points[1]);
-        }
-
-        public static Vector2 NearestPoint(this Vector2 p, Triangle r)
-        {
-            // check if P in vertex region outside A
-            Vector2 ab = r.Points[1] - r.Points[0];
-            Vector2 ac = r.Points[2] - r.Points[0];
-            Vector2 ap = p - r.Points[0];
-            float d1 = Vector2.Dot(ab, ap);
-            float d2 = Vector2.Dot(ac, ap);
-            if (d1 <= 0.0f && d2 <= 0.0f) return r.Points[0]; // barycentric coordinates (1,0,0)
-
-            // check if P in vertex region outside B
-            Vector2 bp = p - r.Points[1];
-            float d3 = Vector2.Dot(ab, bp);
-            float d4 = Vector2.Dot(ac, bp);
-            if (d3 >= 0.0f && d4 <= d3) return r.Points[1]; // barycentric coordinates (0,1,0)
-
-            // check if P in edge region of AB, if so return projection of P onto AB
-            float vc = d1 * d4 - d3 * d2;
-            float v;
-            if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f) 
-            {
-                v = d1 / (d1 - d3);
-                return r.Points[0] + v * ab;
-            }
-
-            // check if P in vertex region outside C
-            Vector2 cp = p - r.Points[2];
-            float d5 = Vector2.Dot(ab, cp);
-            float d6 = Vector2.Dot(ac, cp);
-            if(d6 >= 0.0f && d5 <= d6) return r.Points[2]; // barycentric coordinates (0,0,1)
-
-            // check if P in edge region of AC, if so return projection of P onto AC
-            float vb = d5 * d2 - d1 * d6;
-            float w;
-            if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f) 
-            {
-                w = d2 / (d2 - d6);
-                return r.Points[0] + w * ac;
-            }
-
-            // check if P in edge region of BC, if so return projection of P onto BC
-            float va = d3 * d6 - d5 * d4;
-            if (va <= 0.0f && (d4 - d3) > 0.0f && (d5 - d6) >= 0.0f) 
-            {
-                w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
-                return r.Points[1] + w * (r.Points[2] - r.Points[1]);
-            }
-
-            // P inside face region. Compute Q through its barycentric coordinates (u,v,w)
-            float denom = 1.0f / (va + vb + vc);
-            v = vb * denom;
-            w = vc * denom;
-            return r.Points[0] + ab * v + ac * w;
         }
 
         /// <summary>Determines if the circle overlaps with the rectangle</summary>
@@ -221,27 +134,6 @@ namespace LongHorse.CollisionLib2D
             return (c.Radius * c.Radius) > Vector2.Dot(delta, delta);
         }
 
-        public static LineSegment[] GetEdges(this Rectangle r) 
-        {
-            return new LineSegment[4]
-                {
-                new LineSegment(new Vector2(r.Left, r.Bottom), new Vector2(r.Left, r.Top)),
-                new LineSegment(new Vector2(r.Left, r.Top), new Vector2(r.Right, r.Top)),
-                new LineSegment(new Vector2(r.Right, r.Top), new Vector2(r.Right, r.Bottom)),
-                new LineSegment(new Vector2(r.Right, r.Bottom), new Vector2(r.Left, r.Bottom))
-                };
-        }
-
-        public static LineSegment[] GetEdges(this Triangle t)
-        {
-            return new LineSegment[3]
-            {
-                new LineSegment(t.Points[0], t.Points[1]),
-                new LineSegment(t.Points[1], t.Points[2]),
-                new LineSegment(t.Points[2], t.Points[0])
-            };
-
-        }
         public static bool Intersects(this Triangle t, Rectangle r) 
         {
 
@@ -313,6 +205,112 @@ namespace LongHorse.CollisionLib2D
             }
 
             return false;
+        }
+        public static Vector2 NearestPoint(this Vector2 p, Rectangle r)
+        {
+            return new Vector2(
+                    MathF.Min(MathF.Max(p.X, r.Left), r.Right),
+                    MathF.Min(MathF.Max(p.Y, r.Top), r.Bottom)
+                );
+        }
+        public static Vector2 NearestPoint(this Vector2 p, Circle c)
+        {
+            var delta = p - c.Center;
+            var deltaLength = delta.Length();
+            if (deltaLength <= c.Radius) return p;
+            return c.Center + delta / deltaLength * c.Radius;
+
+        }
+
+        public static Vector2 NearestPoint(Vector2 p, Vector2 a1, Vector2 a2)
+        {
+            var ab = a2 - a1;
+            var t = Vector2.Dot(p - a1, ab) / Vector2.Dot(ab, ab);
+            if (t < 0.0f) t = 0.0f;
+            if (t > 1.0f) t = 1.0f;
+            return a1 + t * ab;
+        }
+
+        public static Vector2 NearestPoint(this Vector2 p, LineSegment a)
+        {
+            return NearestPoint(p, a.Points[0], a.Points[1]);
+        }
+
+        public static Vector2 NearestPoint(this Vector2 p, Triangle r)
+        {
+            // check if P in vertex region outside A
+            Vector2 ab = r.Points[1] - r.Points[0];
+            Vector2 ac = r.Points[2] - r.Points[0];
+            Vector2 ap = p - r.Points[0];
+            float d1 = Vector2.Dot(ab, ap);
+            float d2 = Vector2.Dot(ac, ap);
+            if (d1 <= 0.0f && d2 <= 0.0f) return r.Points[0]; // barycentric coordinates (1,0,0)
+
+            // check if P in vertex region outside B
+            Vector2 bp = p - r.Points[1];
+            float d3 = Vector2.Dot(ab, bp);
+            float d4 = Vector2.Dot(ac, bp);
+            if (d3 >= 0.0f && d4 <= d3) return r.Points[1]; // barycentric coordinates (0,1,0)
+
+            // check if P in edge region of AB, if so return projection of P onto AB
+            float vc = d1 * d4 - d3 * d2;
+            float v;
+            if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f)
+            {
+                v = d1 / (d1 - d3);
+                return r.Points[0] + v * ab;
+            }
+
+            // check if P in vertex region outside C
+            Vector2 cp = p - r.Points[2];
+            float d5 = Vector2.Dot(ab, cp);
+            float d6 = Vector2.Dot(ac, cp);
+            if (d6 >= 0.0f && d5 <= d6) return r.Points[2]; // barycentric coordinates (0,0,1)
+
+            // check if P in edge region of AC, if so return projection of P onto AC
+            float vb = d5 * d2 - d1 * d6;
+            float w;
+            if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f)
+            {
+                w = d2 / (d2 - d6);
+                return r.Points[0] + w * ac;
+            }
+
+            // check if P in edge region of BC, if so return projection of P onto BC
+            float va = d3 * d6 - d5 * d4;
+            if (va <= 0.0f && (d4 - d3) > 0.0f && (d5 - d6) >= 0.0f)
+            {
+                w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+                return r.Points[1] + w * (r.Points[2] - r.Points[1]);
+            }
+
+            // P inside face region. Compute Q through its barycentric coordinates (u,v,w)
+            float denom = 1.0f / (va + vb + vc);
+            v = vb * denom;
+            w = vc * denom;
+            return r.Points[0] + ab * v + ac * w;
+        }
+
+        public static LineSegment[] GetEdges(this Rectangle r)
+        {
+            return new LineSegment[4]
+                {
+                new LineSegment(new Vector2(r.Left, r.Bottom), new Vector2(r.Left, r.Top)),
+                new LineSegment(new Vector2(r.Left, r.Top), new Vector2(r.Right, r.Top)),
+                new LineSegment(new Vector2(r.Right, r.Top), new Vector2(r.Right, r.Bottom)),
+                new LineSegment(new Vector2(r.Right, r.Bottom), new Vector2(r.Left, r.Bottom))
+                };
+        }
+
+        public static LineSegment[] GetEdges(this Triangle t)
+        {
+            return new LineSegment[3]
+            {
+                new LineSegment(t.Points[0], t.Points[1]),
+                new LineSegment(t.Points[1], t.Points[2]),
+                new LineSegment(t.Points[2], t.Points[0])
+            };
+
         }
     }
 }

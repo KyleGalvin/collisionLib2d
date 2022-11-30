@@ -32,6 +32,11 @@ namespace LongHorse.CollisionLib2D.Primitives
 
         public float Bottom => MathF.Max(MathF.Max(Points[0].Y, Points[1].Y), Points[2].Y);
 
+        public Vector2 NearestPoint(Vector2 p)
+        {
+            return p.NearestPoint(this);
+        }
+
         public BoundingType BoundingType => BoundingType.Triangle;
     }
 }

@@ -55,6 +55,11 @@ namespace LongHorse.CollisionLib2D.Primitives
             Center = new Vector2(Center.X, bottom - HalfHeight);
         }
 
+        public Vector2 NearestPoint(Vector2 p)
+        {
+            return p.NearestPoint(this);
+        }
+
         public BoundingType BoundingType => BoundingType.Rectangle;
     }
 

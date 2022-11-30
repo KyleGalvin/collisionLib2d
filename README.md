@@ -51,13 +51,33 @@ X and Y boundaries (Top, Bottom, Left, Right) are read-only on the interface. Me
 
 ### <a id="rectangle"></a>Rectangle
 
+The rectangle class is the implementation of IBoundingArea that is most true to the interface. 
+
+The intersecting spaces between IBoundingArea and Rectangle are identical. 
+
+There are methods to allow you to move the Left, Top, Right, and Bottom of the shape to a position without changing the dimensions of the shape.
+
 ### <a id="circle"></a>Circle
+
+The circle is the simplest implementation of IBoundingArea, with a Center and a Radius.
 
 ### <a id="triangle"></a>Triangle
 
+Internally, the triangle is represented by three connected points.
+
+The Top, Left, Right, and Bottom are the minimum and maximum X and Y values of the three points, creating a bounding square around the shape.
+
+The center is the triangle Centroid, calculated on every access. Because of this, reducing unneeded calls to the Center property will help performance.
+
 ### <a id="line"></a>LineSegment
 
+Similar to the triangle, the LineSegment is represented by an array of points.
+
+The center is the midpoint of the line, and is also calculated on each access.
+
 ## <a id="nearest"></a>Nearest Point
+
+For each of the IBoundingArea implementations, the NearestPoint method will determine the point within the given shape that is closest to the input vector. Each shape uses a different algorithm, most of them taken from [[1]](#rtcd)
 
 ## <a id="intersections"></a>Intersections
 
@@ -112,11 +132,11 @@ foreach (var candidate in neighbors)
 # <a id="references"></a> References 
 
 ## <a id="theory"></a> Theory
-- [Ericson, Christer (2005) Real-Time Collision Detection](http://www.r-5.org/files/books/computers/algo-list/realtime-3d/Christer_Ericson-Real-Time_Collision_Detection-EN.pdf)
-- [Wikipedia QuadTree](https://en.wikipedia.org/wiki/Quadtree)
+- <a id="rtcd"></a>[1][Ericson, Christer (2005) Real-Time Collision Detection](http://www.r-5.org/files/books/computers/algo-list/realtime-3d/Christer_Ericson-Real-Time_Collision_Detection-EN.pdf)
+- <a id="wikiquadtree"></a>[2][Wikipedia QuadTree](https://en.wikipedia.org/wiki/Quadtree)
 
 ## <a id="implementations"></a> Implementations
-- [Connor 'Auios' Andrew Ngo (2020) Auios.QuadTree](https://github.com/Auios/Auios.QuadTree)
-- [Igor 'Leonidovia' (2017) UltimateQuadTree](https://github.com/leonidovia/UltimateQuadTree)
+- [3][Connor 'Auios' Andrew Ngo (2020) Auios.QuadTree](https://github.com/Auios/Auios.QuadTree)
+- [4][Igor 'Leonidovia' (2017) UltimateQuadTree](https://github.com/leonidovia/UltimateQuadTree)
 
 Portions of the QuadTree implementation were taken and modified directly from the Auios project.

@@ -13,5 +13,7 @@ namespace LongHorse.CollisionLib2D.Primitives
         public float Top { get; }
         public float Bottom { get; }
         BoundingType BoundingType { get; }
+
+        public Vector2 NearestPoint(Vector2 p);
     }
 }
