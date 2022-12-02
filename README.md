@@ -57,9 +57,17 @@ The intersecting spaces between IBoundingArea and Rectangle are identical.
 
 There are methods to allow you to move the Left, Top, Right, and Bottom of the shape to a position without changing the dimensions of the shape.
 
+```csharp
+public Rectangle unitSquare = new Rectangle() { Size = new Vector2(1.0f, 1.0f), Center = new Vector2(0.0f, 0.0f) }
+```
+
 ### <a id="circle"></a>Circle
 
 The circle is the simplest implementation of IBoundingArea, with a Center and a Radius.
+
+```csharp
+public Circle unitCircle = new Circle() { Radius = 0.5f, Center = new Vector2(0.0f, 0.0f) };
+```
 
 ### <a id="triangle"></a>Triangle
 
@@ -68,6 +76,10 @@ Internally, the triangle is represented by three connected points.
 The Top, Left, Right, and Bottom are the minimum and maximum X and Y values of the three points, creating a bounding square around the shape.
 
 The center is the triangle Centroid, calculated on every access. Because of this, reducing unneeded calls to the Center property will help performance.
+
+```csharp
+public Triangle triangle = new Triangle() { Points = new Vector2[] { new Vector2(-0.25f, 0.0f), new Vector2(0.25f, 0.0f), new Vector2(0.0f, 0.25f) }
+```
 
 ### <a id="line"></a>LineSegment
 
