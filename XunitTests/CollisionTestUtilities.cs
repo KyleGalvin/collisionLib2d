@@ -8,6 +8,8 @@ namespace XunitTests
 {
     public class CircleGenerator : IEnumerable<object[]>
     {
+
+
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         public IEnumerator<object[]> GetEnumerator()
         {
