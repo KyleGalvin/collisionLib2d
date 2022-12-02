@@ -61,7 +61,7 @@ namespace XunitTests
             //inside big
             yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-10.0f, -10.0f), new Vector2(10.0f, 10.0f), new Vector2(0.0f, 20.0f) } }, true };
 
-            //Each of three points at the origin, the other two outside the unit circle
+            //partially intersecting
             yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(20.0f, 20.0f), new Vector2(20.0f, -20.0f) } }, true };
             yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 20.0f), new Vector2(-20.0f, -20.0f) } }, true };
             yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(-20.0f, -20.0f), new Vector2(20.0f, -20.0f) } }, true };
@@ -72,7 +72,12 @@ namespace XunitTests
             yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, -20.0f) } }, true };
             yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, 20.0f) } }, true };
 
-            //not intersecting ( 8 edges and corners )
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(20.0f, 0.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, 20.0f) } }, true };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(20.0f, 0.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, -20.0f) } }, true };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 20.0f), new Vector2(0.0f, -20.0f), new Vector2(-20.0f, 0.0f) } }, true };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 20.0f), new Vector2(0.0f, -20.0f), new Vector2(20.0f, 0.0f) } }, true };
+
+            //non-intersecting
             yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(2.0f, 0.0f), new Vector2(20.0f, 20.0f), new Vector2(20.0f, -20.0f) } }, false };
             yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-2.0f, 0.0f), new Vector2(-20.0f, 20.0f), new Vector2(-20.0f, -20.0f) } }, false };
             yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, -2.0f), new Vector2(-20.0f, -20.0f), new Vector2(20.0f, -20.0f) } }, false };
@@ -82,6 +87,11 @@ namespace XunitTests
             yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(2.0f, 2.0f), new Vector2(20.0f, 0.0f), new Vector2(0.0f, 20.0f) } }, false };
             yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-2.0f, -2.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, -20.0f) } }, false };
             yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-2.0f, 2.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, 20.0f) } }, false };
+
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(20.0f, 2.0f), new Vector2(-20.0f, 2.0f), new Vector2(0.0f, 20.0f) } }, false };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(20.0f, -2.0f), new Vector2(-20.0f, -2.0f), new Vector2(0.0f, -20.0f) } }, false };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-2.0f, 20.0f), new Vector2(-2.0f, -20.0f), new Vector2(-20.0f, 0.0f) } }, false };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(2.0f, 20.0f), new Vector2(2.0f, -20.0f), new Vector2(20.0f, 0.0f) } }, false };
         }
     }
 

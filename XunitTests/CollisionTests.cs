@@ -11,6 +11,7 @@ namespace XunitTests
     {
         Rectangle _unitRectangle = new Rectangle() { Size = new Vector2(1.0f, 1.0f), Center = new Vector2(0.0f, 0.0f) };
         Circle _unitCircle = new Circle() { Radius = 0.5f, Center = new Vector2(0.0f, 0.0f) };
+        Triangle _unitTriangle = new Triangle() { Points = new Vector2[] { new Vector2(-1.0f, -1.0f), new Vector2(0.0f, 1.0f), new Vector2(1.0f, -1.0f) } };
 
         [Theory]
         [ClassData(typeof(CircleGenerator))]
@@ -47,6 +48,13 @@ namespace XunitTests
         public void Triangle_Rect_Collision(Triangle t, bool intersectionExpected)
         {
             Assert.Equal(intersectionExpected, t.Intersects(_unitRectangle));
+        }
+
+        [Theory]
+        [ClassData(typeof(TriangleGenerator))]
+        public void Triangle_Triangle_Collision(Triangle t, bool intersectionExpected)
+        {
+            Assert.Equal(intersectionExpected, t.Intersects(_unitTriangle));
         }
     }
 }
