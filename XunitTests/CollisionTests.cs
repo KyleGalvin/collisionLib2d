@@ -50,6 +50,20 @@ namespace XunitTests
             Assert.True(squaredLength < 0.00001);
         }
 
+        [Theory]
+        [ClassData(typeof(TriangleGenerator))]
+        public void Triangle_Circle_Collision(Triangle t, bool intersectionExpected)
+        {
+            Assert.Equal(intersectionExpected, t.Intersects(_unitCircle));
+        }
+
+        [Theory]
+        [ClassData(typeof(TriangleGenerator))]
+        public void Triangle_Rect_Collision(Triangle t, bool intersectionExpected)
+        {
+            Assert.Equal(intersectionExpected, t.Intersects(_unitRectangle));
+        }
+
         [Fact]
         public void QuadTree_Overlapping_Neighbors()
         {

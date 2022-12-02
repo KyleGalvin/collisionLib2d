@@ -45,6 +45,44 @@ namespace XunitTests
         }
     }
 
+    public class TriangleGenerator : IEnumerable<object[]>
+    {
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        public IEnumerator<object[]> GetEnumerator()
+        {
+
+            //the trailing boolean indicates whether we expect this to intersect with a unit circle or not. Also works for unit square
+
+            //inside small
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-0.25f, 0.0f), new Vector2(0.25f, 0.0f), new Vector2(0.0f, 0.25f) } }, true };
+
+            //inside big
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-10.0f, -10.0f), new Vector2(10.0f, 10.0f), new Vector2(0.0f, 20.0f) } }, true };
+
+            //Each of three points at the origin, the other two outside the unit circle
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(20.0f, 20.0f), new Vector2(20.0f, -20.0f) } }, true };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 20.0f), new Vector2(-20.0f, -20.0f) } }, true };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(-20.0f, -20.0f), new Vector2(20.0f, -20.0f) } }, true };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 20.0f), new Vector2(20.0f, 20.0f) } }, true };
+
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(20.0f, 0.0f), new Vector2(0.0f, -20.0f) } }, true };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(20.0f, 0.0f), new Vector2(0.0f, 20.0f) } }, true };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, -20.0f) } }, true };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, 20.0f) } }, true };
+
+            //not intersecting ( 8 edges and corners )
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(2.0f, 0.0f), new Vector2(20.0f, 20.0f), new Vector2(20.0f, -20.0f) } }, false };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-2.0f, 0.0f), new Vector2(-20.0f, 20.0f), new Vector2(-20.0f, -20.0f) } }, false };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, -2.0f), new Vector2(-20.0f, -20.0f), new Vector2(20.0f, -20.0f) } }, false };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 2.0f), new Vector2(-20.0f, 20.0f), new Vector2(20.0f, 20.0f) } }, false };
+
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(2.0f, -2.0f), new Vector2(20.0f, 0.0f), new Vector2(0.0f, -20.0f) } }, false };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(2.0f, 2.0f), new Vector2(20.0f, 0.0f), new Vector2(0.0f, 20.0f) } }, false };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-2.0f, -2.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, -20.0f) } }, false };
+            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-2.0f, 2.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, 20.0f) } }, false };
+        }
+    }
+
     public class RectangleGenerator : IEnumerable<object[]>
     {
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
