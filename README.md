@@ -103,13 +103,74 @@ Similar to the triangle, the LineSegment is represented by an array of points.
 
 The center is the midpoint of the line, and is also calculated on each access.
 
+```csharp
+public LineSegment line = new LineSegment(
+	new Vector2(-1.0f, -1.0f), 
+	new Vector2(1.0f, 1.0f));
+```
+
 ## <a id="nearest"></a>Nearest Point
 
 For each of the IBoundingArea implementations, the NearestPoint method will determine the point within the given shape that is closest to the input vector. Each shape uses a different algorithm, most of them taken from [[1]](#rtcd)
 
+```csharp
+public void Circle_Nearest_Point()
+{
+	Circle unitCircle = new Circle() 
+	{ 
+		Radius = 0.5f, 
+		Center = new Vector2(0.0f, 0.0f) 
+	};
+
+	//the center of the circle is the nearest point to itself
+	var p = new Vector2(0.0f, 0.0f);
+	var nearestPoint = p.NearestPoint(unitCircle);
+	var distance = nearestPoint.Length();
+	Assert.Equal(0.0f, distance);
+
+	//the edge of the circle is the nearest point to itself
+	p = new Vector2(0.5f, 0.0f);
+	nearestPoint = p.NearestPoint(unitCircle);
+	distance = nearestPoint.Length();
+	Assert.Equal(0.5f, distance);
+
+	//the edge of the circle is the nearest point
+	p = new Vector2(2.0f, 0.0f);
+	nearestPoint = p.NearestPoint(unitCircle);
+	distance = nearestPoint.Length();
+	Assert.Equal(0.5f, distance);
+
+	//any point outside of the circle should have a nearest point distance of 0.5
+	//but floating point precision kicks in when we dont choose nice even numbers along the axis
+	p = new Vector2(2.0f, 2.0f);
+	nearestPoint = p.NearestPoint(unitCircle);
+	distance = nearestPoint.Length();
+	Assert.True(distance - 0.5f < 0.00001);
+}
+```
+
 ## <a id="intersections"></a>Intersections
 
 For each of the 16 primitive shape pairings, one of 10 distinct algorithms can be invoked to determine if the two primitives intersect.
+
+```csharp
+public void Rect_Circle_Collision(IBoundingArea b, bool intersectionExpected)
+{
+	Rectangle unitRectangle = new Rectangle() 
+	{ 
+		Size = new Vector2(1.0f, 1.0f), 
+		Center = new Vector2(0.0f, 0.0f) 
+	};
+
+	Circle unitCircle = new Circle() 
+	{ 
+		Radius = 0.5f, 
+		Center = new Vector2(0.0f, 0.0f) 
+	};
+
+	Assert.True(unitRectangle.Intersects(unitCircle));
+}
+```
 
 ## <a id="partitioning"></a>Spatial Partitioning
 
