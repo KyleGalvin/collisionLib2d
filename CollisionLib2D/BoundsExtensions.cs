@@ -189,6 +189,11 @@ namespace LongHorse.CollisionLib2D
 
         public static bool Intersects(this LineSegment l, Triangle t)
         {
+
+            //if an end of the line segment is in the triangle, they collide
+            if (l.Points[0].NearestPoint(t) == l.Points[0]) return true;
+            if (l.Points[1].NearestPoint(t) == l.Points[1]) return true;
+
             foreach (var e in t.GetEdges())
             {
                 if (l.Intersects(e)) return true;

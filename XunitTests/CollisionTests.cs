@@ -58,11 +58,60 @@ namespace XunitTests
             Assert.Equal(intersectionExpected, t.Intersects(_unitTriangle));
         }
 
+
+        [Fact]
+        public void Triangle_LineSegment_Collision()
+        {
+            var triangle345 = new Triangle
+            {
+                Points = new Vector2[] {
+                    new Vector2(0.0f, 0.0f),
+                    new Vector2(3.0f, 0.0f),
+                    new Vector2(0.0f, 4.0f)
+                }
+            };
+
+            //through a side
+            var line = new LineSegment(new Vector2(-1.0f, 1.0f), new Vector2(0.5f, 1.0f));
+            Assert.True(line.Intersects(triangle345));
+
+            //across a corner
+            line = new LineSegment(new Vector2(-0.5f, 1.0f), new Vector2(1.0f, -0.5f));
+            Assert.True(line.Intersects(triangle345));
+
+            //through a corner (but not a side)
+            line = new LineSegment(new Vector2(-0.025f, -0.025f), new Vector2(0.025f, 0.025f));
+            Assert.True(line.Intersects(triangle345));
+
+            //fully inside the triangle
+            line = new LineSegment(new Vector2(1.0f, 1.0f), new Vector2(1.1f, 1.1f));
+            Assert.True(line.Intersects(triangle345));
+
+            //parallel
+            line = new LineSegment(new Vector2(-1.0f, 0.0f), new Vector2(-1.0f, 4.0f));
+            Assert.False(line.Intersects(triangle345));
+
+        }
+
         [Theory]
         [ClassData(typeof(LineSegmentGenerator))]
         public void LineSegment_Circle_Collision(LineSegment l, bool intersectionExpected)
         {
             Assert.Equal(intersectionExpected, l.Intersects(_unitCircle));
+        }
+
+        [Fact]
+        public void LineSegment_LineSegment_Collision()
+        {
+            var l1 = new LineSegment(new Vector2(1.0f, 0.0f), new Vector2(-1.0f, 0.0f));
+            var l2 = new LineSegment(new Vector2(1.0f, 1.0f), new Vector2(-1.0f, 1.0f));
+            var l3 = new LineSegment(new Vector2(0.5f, 1.0f), new Vector2(0.5f, -1.0f));
+            Assert.False(l1.Intersects(l2));
+            Assert.False(l2.Intersects(l1));
+            Assert.True(l3.Intersects(l1));
+            Assert.True(l3.Intersects(l2));
+            Assert.True(l2.Intersects(l3));
+            Assert.True(l1.Intersects(l3));
         }
 
         [Theory]
