@@ -135,6 +135,44 @@ namespace XunitTests
         }
     }
 
+    public class LineSegmentGenerator : IEnumerable<object[]>
+    {
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        public IEnumerator<object[]> GetEnumerator()
+        {
+
+            //the trailing boolean indicates whether we expect this to intersect with a unit circle or not.
+
+            //line entirely in circle
+            yield return new object[] { new LineSegment(new Vector2(0.05f, 0.0f), new Vector2(0.0f, 0.05f)), true };
+
+            //diagonal intersections
+            yield return new object[] { new LineSegment(new Vector2(0.6f, 0.0f), new Vector2(0.0f, 0.6f)), true };
+            yield return new object[] { new LineSegment(new Vector2(-0.6f, 0.0f), new Vector2(0.0f, 0.6f)), true };
+            yield return new object[] { new LineSegment(new Vector2(-0.6f, 0.0f), new Vector2(0.0f, -0.6f)), true };
+            yield return new object[] { new LineSegment(new Vector2(0.6f, 0.0f), new Vector2(0.0f, -0.6f)), true };
+
+            //axis aligned intersections
+            yield return new object[] { new LineSegment(new Vector2(0.25f, 1.0f), new Vector2(0.25f, -1.0f)), true };
+            yield return new object[] { new LineSegment(new Vector2(-0.25f, 1.0f), new Vector2(-0.25f, -1.0f)), true };
+            yield return new object[] { new LineSegment(new Vector2(1.0f, 0.25f), new Vector2(-1.0f, 0.25f)), true };
+            yield return new object[] { new LineSegment(new Vector2(1.0f, -0.25f), new Vector2(-1.0f, -0.25f)), true };
+
+            //diagonal non-intersections
+            yield return new object[] { new LineSegment(new Vector2(1.75f, 0.0f), new Vector2(0.0f, 1.75f)), false };
+            yield return new object[] { new LineSegment(new Vector2(-1.75f, 0.0f), new Vector2(0.0f, 1.75f)), false };
+            yield return new object[] { new LineSegment(new Vector2(-1.75f, 0.0f), new Vector2(0.0f, -1.75f)), false };
+            yield return new object[] { new LineSegment(new Vector2(1.75f, 0.0f), new Vector2(0.0f, -1.75f)), false };
+
+            //axis aligned non-intersections
+            yield return new object[] { new LineSegment(new Vector2(0.75f, 0.0f), new Vector2(0.75f, 0.0f)), false };
+            yield return new object[] { new LineSegment(new Vector2(-0.75f, 0.0f), new Vector2(-0.75f, 0.0f)), false };
+            yield return new object[] { new LineSegment(new Vector2(0.0f, 0.75f), new Vector2(0.0f, 0.75f)), false };
+            yield return new object[] { new LineSegment(new Vector2(0.0f, -0.75f), new Vector2(0.0f, -0.75f)), false };
+
+        }
+    }
+
     public class BoundingAreaGenerator : IEnumerable<object[]>
     {
         private CircleGenerator _circleGenerator = new CircleGenerator();

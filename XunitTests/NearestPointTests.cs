@@ -5,6 +5,8 @@ using Xunit;
 
 namespace XunitTests
 {
+    [Trait("Module", "Geometry")]
+    [Trait("Category", "Unit")]
     public class NearestPointTests
     {
         [Theory]

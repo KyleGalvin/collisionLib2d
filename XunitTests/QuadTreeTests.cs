@@ -7,6 +7,8 @@ using Xunit;
 
 namespace XunitTests
 {
+    [Trait("Module", "SpatialPartitioning")]
+    [Trait("Category", "Unit")]
     public class QuadTreeTests
     {
         public static Rectangle _unitRectangle = new Rectangle() { Size = new Vector2(1.0f, 1.0f), Center = new Vector2(0.0f, 0.0f) };

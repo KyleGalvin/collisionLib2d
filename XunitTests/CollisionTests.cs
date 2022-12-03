@@ -6,6 +6,7 @@ using Xunit;
 namespace XunitTests
 {
     [Trait("Module", "Collision")]
+    [Trait("Module", "Geometry")]
     [Trait("Category", "Unit")]
     public class CollisionTests
     {
@@ -55,6 +56,20 @@ namespace XunitTests
         public void Triangle_Triangle_Collision(Triangle t, bool intersectionExpected)
         {
             Assert.Equal(intersectionExpected, t.Intersects(_unitTriangle));
+        }
+
+        [Theory]
+        [ClassData(typeof(LineSegmentGenerator))]
+        public void LineSegment_Circle_Collision(LineSegment l, bool intersectionExpected)
+        {
+            Assert.Equal(intersectionExpected, l.Intersects(_unitCircle));
+        }
+
+        [Theory]
+        [ClassData(typeof(LineSegmentGenerator))]
+        public void Rect_LineSegment_Collision(LineSegment l, bool intersectionExpected)
+        {
+            Assert.Equal(intersectionExpected, l.Intersects(_unitRectangle));
         }
     }
 }

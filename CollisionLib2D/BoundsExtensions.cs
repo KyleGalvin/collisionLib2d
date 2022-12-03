@@ -199,6 +199,11 @@ namespace LongHorse.CollisionLib2D
 
         public static bool Intersects(this LineSegment l, Rectangle r)
         {
+            //if an end of the line segment is in the square, they collide
+            if (l.Points[0].NearestPoint(r) == l.Points[0]) return true;
+            if (l.Points[1].NearestPoint(r) == l.Points[1]) return true;
+
+            //if any rectangle edges intersect the line, they collide
             foreach (var e in r.GetEdges())
             {
                 if (l.Intersects(e)) return true;
