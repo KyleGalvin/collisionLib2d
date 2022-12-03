@@ -54,5 +54,109 @@ namespace XunitTests
             distance = nearestPoint.Length();
             Assert.True(distance - 0.5f < 0.00001);
         }
+
+        [Fact]
+        public void LineSegment_Nearest_Point()
+        {
+
+            var line = new LineSegment(new Vector2(-1.0f, -1.0f), new Vector2(1.0f, 1.0f));
+
+            //along the line should return itself
+            var p = new Vector2(0.0f, 0.0f);
+            var nearestPoint = p.NearestPoint(line);
+            Assert.Equal(Vector2.Zero, nearestPoint);
+
+            //beyond the end of a line should return the end of the line
+            p = new Vector2(-2.0f, -2.0f);
+            nearestPoint = p.NearestPoint(line);
+            Assert.Equal(new Vector2(-1.0f, -1.0f), nearestPoint);
+
+            p = new Vector2(2.0f, 2.0f);
+            nearestPoint = p.NearestPoint(line);
+            Assert.Equal(new Vector2(1.0f, 1.0f), nearestPoint);
+
+            //along the side
+            p = new Vector2(-1.0f, 1.0f);
+            nearestPoint = p.NearestPoint(line);
+            Assert.Equal(Vector2.Zero, nearestPoint);
+        }
+
+        [Fact]
+        public void Rectangle_Nearest_Point()
+        {
+
+            //inside returns itself
+            var p = Vector2.Zero;
+            var nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(Vector2.Zero, nearestPoint);
+
+            //edges return themselves
+            p = new Vector2(0.5f, 0.0f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(p, nearestPoint);
+
+            p = new Vector2(-0.5f, 0.0f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(p, nearestPoint);
+
+            p = new Vector2(0.0f, 0.5f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(p, nearestPoint);
+
+            p = new Vector2(0.0f, -0.5f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(p, nearestPoint);
+
+            //corners return themselves
+            p = new Vector2(0.5f, 0.5f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(p, nearestPoint);
+
+            p = new Vector2(0.5f, -0.5f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(p, nearestPoint);
+
+            p = new Vector2(-0.5f, 0.5f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(p, nearestPoint);
+
+            p = new Vector2(-0.5f, -0.5f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(p, nearestPoint);
+
+            //outside edges return edge
+            p = new Vector2(1.5f, 0.0f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(new Vector2(0.5f, 0.0f), nearestPoint);
+
+            p = new Vector2(-1.5f, 0.0f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(new Vector2(-0.5f, 0.0f), nearestPoint);
+
+            p = new Vector2(0.0f, 1.5f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(new Vector2(0.0f, 0.5f), nearestPoint);
+
+            p = new Vector2(0.0f, -1.5f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(new Vector2(0.0f, -0.5f), nearestPoint);
+
+            //outside corners return corners
+            p = new Vector2(1.5f, 1.5f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(new Vector2(0.5f, 0.5f), nearestPoint);
+
+            p = new Vector2(1.5f, -1.5f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(new Vector2(0.5f, -0.5f), nearestPoint);
+
+            p = new Vector2(-1.5f, 1.5f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(new Vector2(-0.5f, 0.5f), nearestPoint);
+
+            p = new Vector2(-1.5f, -1.5f);
+            nearestPoint = p.NearestPoint(_unitRectangle);
+            Assert.Equal(new Vector2(-0.5f, -0.5f), nearestPoint);
+        }
     }
 }
