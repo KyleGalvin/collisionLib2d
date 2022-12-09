@@ -55,42 +55,42 @@ namespace XunitTests
             //the trailing boolean indicates whether we expect this to intersect with a unit circle or not. Also works for unit square
 
             //inside small
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-0.25f, 0.0f), new Vector2(0.25f, 0.0f), new Vector2(0.0f, 0.25f) } }, true };
+            yield return new object[] { new Triangle(new Vector2(-0.25f, 0.0f), new Vector2(0.25f, 0.0f), new Vector2(0.0f, 0.25f)), true };
 
             //inside big
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-10.0f, -10.0f), new Vector2(10.0f, 10.0f), new Vector2(0.0f, 20.0f) } }, true };
+            yield return new object[] { new Triangle(new Vector2(-10.0f, -10.0f), new Vector2(10.0f, 10.0f), new Vector2(0.0f, 20.0f)), true };
 
             //partially intersecting
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(20.0f, 20.0f), new Vector2(20.0f, -20.0f) } }, true };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 20.0f), new Vector2(-20.0f, -20.0f) } }, true };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(-20.0f, -20.0f), new Vector2(20.0f, -20.0f) } }, true };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 20.0f), new Vector2(20.0f, 20.0f) } }, true };
+            yield return new object[] { new Triangle(new Vector2(0.0f, 0.0f), new Vector2(20.0f, 20.0f), new Vector2(20.0f, -20.0f)), true };
+            yield return new object[] { new Triangle(new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 20.0f), new Vector2(-20.0f, -20.0f)), true };
+            yield return new object[] { new Triangle(new Vector2(0.0f, 0.0f), new Vector2(-20.0f, -20.0f), new Vector2(20.0f, -20.0f)), true };
+            yield return new object[] { new Triangle(new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 20.0f), new Vector2(20.0f, 20.0f)), true };
 
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(20.0f, 0.0f), new Vector2(0.0f, -20.0f) } }, true };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(20.0f, 0.0f), new Vector2(0.0f, 20.0f) } }, true };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, -20.0f) } }, true };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, 20.0f) } }, true };
+            yield return new object[] { new Triangle(new Vector2(0.0f, 0.0f), new Vector2(20.0f, 0.0f), new Vector2(0.0f, -20.0f)), true };
+            yield return new object[] { new Triangle(new Vector2(0.0f, 0.0f), new Vector2(20.0f, 0.0f), new Vector2(0.0f, 20.0f)), true };
+            yield return new object[] { new Triangle(new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, -20.0f)), true };
+            yield return new object[] { new Triangle(new Vector2(0.0f, 0.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, 20.0f)), true };
 
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(20.0f, 0.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, 20.0f) } }, true };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(20.0f, 0.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, -20.0f) } }, true };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 20.0f), new Vector2(0.0f, -20.0f), new Vector2(-20.0f, 0.0f) } }, true };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 20.0f), new Vector2(0.0f, -20.0f), new Vector2(20.0f, 0.0f) } }, true };
+            yield return new object[] { new Triangle(new Vector2(20.0f, 0.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, 20.0f)), true };
+            yield return new object[] { new Triangle(new Vector2(20.0f, 0.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, -20.0f)), true };
+            yield return new object[] { new Triangle(new Vector2(0.0f, 20.0f), new Vector2(0.0f, -20.0f), new Vector2(-20.0f, 0.0f)), true };
+            yield return new object[] { new Triangle(new Vector2(0.0f, 20.0f), new Vector2(0.0f, -20.0f), new Vector2(20.0f, 0.0f)), true };
 
             //non-intersecting
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(2.0f, 0.0f), new Vector2(20.0f, 20.0f), new Vector2(20.0f, -20.0f) } }, false };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-2.0f, 0.0f), new Vector2(-20.0f, 20.0f), new Vector2(-20.0f, -20.0f) } }, false };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, -2.0f), new Vector2(-20.0f, -20.0f), new Vector2(20.0f, -20.0f) } }, false };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(0.0f, 2.0f), new Vector2(-20.0f, 20.0f), new Vector2(20.0f, 20.0f) } }, false };
+            yield return new object[] { new Triangle(new Vector2(2.0f, 0.0f), new Vector2(20.0f, 20.0f), new Vector2(20.0f, -20.0f)), false };
+            yield return new object[] { new Triangle(new Vector2(-2.0f, 0.0f), new Vector2(-20.0f, 20.0f), new Vector2(-20.0f, -20.0f)), false };
+            yield return new object[] { new Triangle(new Vector2(0.0f, -2.0f), new Vector2(-20.0f, -20.0f), new Vector2(20.0f, -20.0f)), false };
+            yield return new object[] { new Triangle(new Vector2(0.0f, 2.0f), new Vector2(-20.0f, 20.0f), new Vector2(20.0f, 20.0f)), false };
 
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(2.0f, -2.0f), new Vector2(20.0f, 0.0f), new Vector2(0.0f, -20.0f) } }, false };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(2.0f, 2.0f), new Vector2(20.0f, 0.0f), new Vector2(0.0f, 20.0f) } }, false };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-2.0f, -2.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, -20.0f) } }, false };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-2.0f, 2.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, 20.0f) } }, false };
+            yield return new object[] { new Triangle(new Vector2(2.0f, -2.0f), new Vector2(20.0f, 0.0f), new Vector2(0.0f, -20.0f)), false };
+            yield return new object[] { new Triangle(new Vector2(2.0f, 2.0f), new Vector2(20.0f, 0.0f), new Vector2(0.0f, 20.0f)), false };
+            yield return new object[] { new Triangle(new Vector2(-2.0f, -2.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, -20.0f)), false };
+            yield return new object[] { new Triangle(new Vector2(-2.0f, 2.0f), new Vector2(-20.0f, 0.0f), new Vector2(0.0f, 20.0f)), false };
 
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(20.0f, 2.0f), new Vector2(-20.0f, 2.0f), new Vector2(0.0f, 20.0f) } }, false };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(20.0f, -2.0f), new Vector2(-20.0f, -2.0f), new Vector2(0.0f, -20.0f) } }, false };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(-2.0f, 20.0f), new Vector2(-2.0f, -20.0f), new Vector2(-20.0f, 0.0f) } }, false };
-            yield return new object[] { new Triangle() { Points = new Vector2[] { new Vector2(2.0f, 20.0f), new Vector2(2.0f, -20.0f), new Vector2(20.0f, 0.0f) } }, false };
+            yield return new object[] { new Triangle(new Vector2(20.0f, 2.0f), new Vector2(-20.0f, 2.0f), new Vector2(0.0f, 20.0f)), false };
+            yield return new object[] { new Triangle(new Vector2(20.0f, -2.0f), new Vector2(-20.0f, -2.0f), new Vector2(0.0f, -20.0f)), false };
+            yield return new object[] { new Triangle( new Vector2(-2.0f, 20.0f), new Vector2(-2.0f, -20.0f), new Vector2(-20.0f, 0.0f)), false };
+            yield return new object[] { new Triangle(new Vector2(2.0f, 20.0f), new Vector2(2.0f, -20.0f), new Vector2(20.0f, 0.0f)), false };
         }
     }
 
@@ -198,13 +198,10 @@ namespace XunitTests
         {
             // a right angle triangle with edges of length 3, 4, and 5.
             // the right angled point is at the origin
-            var triangle345 = new Triangle { 
-                Points = new Vector2[] { 
+            var triangle345 = new Triangle(
                     new Vector2(0.0f, 0.0f),
                     new Vector2(3.0f, 0.0f),
-                    new Vector2(0.0f, 4.0f)
-                } 
-            };
+                    new Vector2(0.0f, 4.0f));
 
             //nearest points touching the triangle while in the triangle is the input point
             yield return new object[] { triangle345, new Vector2(1.0f, 1.0f), new Vector2(1.0f, 1.0f) };

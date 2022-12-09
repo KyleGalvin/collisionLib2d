@@ -5,7 +5,13 @@ namespace LongHorse.CollisionLib2D.Primitives
 {
     public class Triangle : IBoundingArea
     {
-        public Vector2[] Points = new Vector2[3];
+        public Triangle(Vector2 p1, Vector2 p2, Vector2 p3) 
+        {
+            Points = new Vector2[3] { p1, p2, p3 };
+        }
+
+        public Vector2[] Points { get; }
+
         public Vector2 Center
         {
             get

@@ -12,7 +12,7 @@ namespace XunitTests
     {
         Rectangle _unitRectangle = new Rectangle() { Size = new Vector2(1.0f, 1.0f), Center = new Vector2(0.0f, 0.0f) };
         Circle _unitCircle = new Circle() { Radius = 0.5f, Center = new Vector2(0.0f, 0.0f) };
-        Triangle _unitTriangle = new Triangle() { Points = new Vector2[] { new Vector2(-1.0f, -1.0f), new Vector2(0.0f, 1.0f), new Vector2(1.0f, -1.0f) } };
+        Triangle _unitTriangle = new Triangle(new Vector2(-1.0f, -1.0f), new Vector2(0.0f, 1.0f), new Vector2(1.0f, -1.0f));
 
         [Theory]
         [ClassData(typeof(CircleGenerator))]
@@ -62,14 +62,10 @@ namespace XunitTests
         [Fact]
         public void Triangle_LineSegment_Collision()
         {
-            var triangle345 = new Triangle
-            {
-                Points = new Vector2[] {
-                    new Vector2(0.0f, 0.0f),
-                    new Vector2(3.0f, 0.0f),
-                    new Vector2(0.0f, 4.0f)
-                }
-            };
+            var triangle345 = new Triangle(
+                new Vector2(0.0f, 0.0f),
+                new Vector2(3.0f, 0.0f),
+                new Vector2(0.0f, 4.0f));
 
             //through a side
             var line = new LineSegment(new Vector2(-1.0f, 1.0f), new Vector2(0.5f, 1.0f));
