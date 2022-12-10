@@ -25,7 +25,7 @@ namespace LongHorse.CollisionLib2D.Primitives
                 BoundingType.Triangle => BoundsExtensions.Intersects(this, (Triangle)a),
                 BoundingType.Circle => BoundsExtensions.Intersects(this, (Circle)a),
                 BoundingType.LineSegment => BoundsExtensions.Intersects(this, (LineSegment)a),
-                _ => throw new NotImplementedException($"No intersects() method for given IBoundingArea {a.BoundingType}")
+                _ => throw new NotImplementedException($"No intersects() method for given IBoundingArea pair ({BoundingType}, {a.BoundingType})")
             };
         }
         public BoundingType BoundingType => BoundingType.Circle;
