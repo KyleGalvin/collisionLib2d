@@ -6,57 +6,19 @@ namespace LongHorse.CollisionLib2D
 {
     public static class BoundsExtensions
     {
-        /// <summary>Determines if one bounding area overlaps with another.</summary>
-        /// <param name="b1">The first bounding area</param>
-        /// <param name="b2">The second bounding area</param>
-        /// <returns>true if the two bounding areas overlap</returns>
-        public static bool Intersects(this IBoundingArea b1, IBoundingArea b2)
-        {
-            if(b1.BoundingType == BoundingType.Rectangle)
-            {
-                if(b2.BoundingType == BoundingType.Rectangle)
-                {
-                    return ((Rectangle)(b1)).Intersects((Rectangle)b2);
-                }
-                else
-                {
-                    return ((Rectangle)(b1)).Intersects((Circle)b2);
-                }
-            } 
-            else
-            {
-                if (b2.BoundingType == BoundingType.Rectangle)
-                {
-                    return ((Circle)(b1)).Intersects((Rectangle)b2);
-                }
-                else
-                {
-                    return ((Circle)(b1)).Intersects((Circle)b2);
-                }
-            }
-        }
 
         /// <summary>Determines if one rectangle overlaps with another.</summary>
         /// <param name="r1">The first rectangle</param>
         /// <param name="r2">The second rectangle</param>
         /// <returns>true if the two rectangles overlap</returns>
-        public static bool Intersects(this Rectangle r1, Rectangle r2)
+        public static bool Intersects(Rectangle r1, Rectangle r2)
         {
             if (r1.Right <= r2.Left || r1.Left >= r2.Right) return false;
             if (r1.Top >= r2.Bottom || r1.Bottom <= r2.Top) return false;
             return true;
         }
 
-        /// <summary>Determines if one circle overlaps with another.</summary>
-        /// <param name="c1">The first circle</param>
-        /// <param name="c2">The second circle</param>
-        /// <returns>true if the two circles overlap</returns>
-        public static bool Intersects(this Circle c1, Circle c2)
-        {
-            var delta = c1.Center - c2.Center;
-            return ((c1.Radius + c2.Radius) * (c1.Radius + c2.Radius)) > ((delta.X) * (delta.X)) + ((delta.Y) * (delta.Y));
-        }
-
+ 
         public static bool LineSegmentsIntersect(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) 
         {
             Vector2 deltaA = a2 - a1;
@@ -89,7 +51,7 @@ namespace LongHorse.CollisionLib2D
         {
             return Intersection(a.Points[0], a.Points[1], b.Points[0], b.Points[1]);
         }
-        public static bool Intersects(this LineSegment a, LineSegment b) 
+        public static bool Intersects(LineSegment a, LineSegment b) 
         {
             return LineSegmentsIntersect(a.Points[0], a.Points[1], b.Points[0], b.Points[1]);
         }
@@ -98,43 +60,54 @@ namespace LongHorse.CollisionLib2D
         /// <param name="c">The circle</param>
         /// <param name="r">The rectangle</param>
         /// <returns>true if the circle and rectangle overlap</returns>
-        public static bool Intersects(this Rectangle r, Circle c)
+        public static bool Intersects(Rectangle r, Circle c)
         {
-            return c.Intersects(r);
+            return Intersects(c, r);
         }
-        public static bool Intersects(this Circle c, Triangle t)
+        public static bool Intersects(Circle c, Triangle t)
         {
-            return t.Intersects(c);
+            return Intersects(t, c);
         }
-        public static bool Intersects(this Circle c, LineSegment ls)
+        public static bool Intersects(Circle c, LineSegment ls)
         {
-            return ls.Intersects(c);
+            return Intersects(ls, c);
         }
-
+        public static bool Intersects(Rectangle r, LineSegment l)
+        {
+            return Intersects(l, r);
+        }
+        public static bool Intersects(Rectangle r, Triangle t) 
+        {
+            return Intersects(t, r);
+        }
+        public static bool Intersects(Triangle t, LineSegment ls)
+        {
+            return Intersects(ls, t);
+        }
         /// <summary>Determines if the circle overlaps with the rectangle</summary>
         /// <param name="c">The circle</param>
         /// <param name="r">The rectangle</param>
         /// <returns>true if the circle and rectangle overlap</returns>
-        public static bool Intersects(this Circle c, Rectangle r)
+        public static bool Intersects(Circle c, Rectangle r)
         {
             var p = c.Center.NearestPoint(r);
             var delta = p - c.Center;
             return (c.Radius * c.Radius) > Vector2.Dot(delta, delta);
         }
-        public static bool Intersects(this Triangle t, Circle c)
+        public static bool Intersects(Triangle t, Circle c)
         {
             var p = c.Center.NearestPoint(t);
             var delta = p - c.Center;
             return (c.Radius * c.Radius) > Vector2.Dot(delta, delta);
         }
-        public static bool Intersects(this LineSegment ls, Circle c) 
+        public static bool Intersects(LineSegment ls, Circle c) 
         {
             var p = c.Center.NearestPoint(ls);
             var delta = p - c.Center;
             return (c.Radius * c.Radius) > Vector2.Dot(delta, delta);
         }
 
-        public static bool Intersects(this Triangle t, Rectangle r) 
+        public static bool Intersects(Triangle t, Rectangle r) 
         {
 
             // If one shape is contained inside the other, they intersect.
@@ -160,7 +133,7 @@ namespace LongHorse.CollisionLib2D
             return false;
         }
 
-        public static bool Intersects(this Triangle t1, Triangle t2)
+        public static bool Intersects(Triangle t1, Triangle t2)
         {
 
             // If one shape is contained inside the other, they intersect.
@@ -187,7 +160,7 @@ namespace LongHorse.CollisionLib2D
             return false;
         }
 
-        public static bool Intersects(this LineSegment l, Triangle t)
+        public static bool Intersects(LineSegment l, Triangle t)
         {
 
             //if an end of the line segment is in the triangle, they collide
@@ -202,7 +175,7 @@ namespace LongHorse.CollisionLib2D
             return false;
         }
 
-        public static bool Intersects(this LineSegment l, Rectangle r)
+        public static bool Intersects(LineSegment l, Rectangle r)
         {
             //if an end of the line segment is in the square, they collide
             if (l.Points[0].NearestPoint(r) == l.Points[0]) return true;
@@ -216,6 +189,17 @@ namespace LongHorse.CollisionLib2D
 
             return false;
         }
+
+        /// <summary>Determines if one circle overlaps with another.</summary>
+        /// <param name="c1">The first circle</param>
+        /// <param name="c2">The second circle</param>
+        /// <returns>true if the two circles overlap</returns>
+        public static bool Intersects(Circle c1, Circle c2)
+        {
+            var delta = c1.Center - c2.Center;
+            return ((c1.Radius + c2.Radius) * (c1.Radius + c2.Radius)) > ((delta.X) * (delta.X)) + ((delta.Y) * (delta.Y));
+        }
+
         public static Vector2 NearestPoint(this Vector2 p, Rectangle r)
         {
             return new Vector2(

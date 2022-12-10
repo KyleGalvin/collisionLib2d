@@ -15,5 +15,6 @@ namespace LongHorse.CollisionLib2D.Primitives
         BoundingType BoundingType { get; }
 
         public Vector2 NearestPoint(Vector2 p);
+        public bool Intersects(IBoundingArea a);
     }
 }

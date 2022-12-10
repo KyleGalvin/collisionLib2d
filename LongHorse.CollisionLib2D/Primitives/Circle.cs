@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 namespace LongHorse.CollisionLib2D.Primitives
 {
@@ -15,6 +16,17 @@ namespace LongHorse.CollisionLib2D.Primitives
         public Vector2 NearestPoint(Vector2 p)
         {
             return p.NearestPoint(this);
+        }
+        public bool Intersects(IBoundingArea a)
+        {
+            return a.BoundingType switch
+            {
+                BoundingType.Rectangle => BoundsExtensions.Intersects(this, (Rectangle)a),
+                BoundingType.Triangle => BoundsExtensions.Intersects(this, (Triangle)a),
+                BoundingType.Circle => BoundsExtensions.Intersects(this, (Circle)a),
+                BoundingType.LineSegment => BoundsExtensions.Intersects(this, (LineSegment)a),
+                _ => throw new NotImplementedException($"No intersects() method for given IBoundingArea {a.BoundingType}")
+            };
         }
         public BoundingType BoundingType => BoundingType.Circle;
     }
