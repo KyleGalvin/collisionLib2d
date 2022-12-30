@@ -63,7 +63,7 @@ namespace LongHorse.CollisionLib2D
         /// <param name="maxLevel">The max depth level.</param>
         /// <param name="currentLevel">The current depth level. Leave default if this is the root QuadTree.</param>
         public QuadTree(float width, float height, int maxObjects = 10, int maxLevel = 5, int currentLevel = 0)
-            : this(0, 0, width, height, maxObjects, maxLevel, currentLevel) { }
+            : this(0, height, width, height, maxObjects, maxLevel, currentLevel) { }
 
         /// <summary>Initializes a new instance of the QuadTree class.</summary>
         /// <param name="size">The size of the boundary rectangle.</param>
@@ -71,7 +71,7 @@ namespace LongHorse.CollisionLib2D
         /// <param name="maxLevel">The max depth level.</param>
         /// <param name="currentLevel">The current depth level. Leave default if this is the root QuadTree.</param>
         public QuadTree(Vector2 size, int maxObjects = 10, int maxLevel = 5, int currentLevel = 0)
-            : this(0, 0, size.X, size.Y, maxObjects, maxLevel, currentLevel) { }
+            : this(0, size.Y, size.X, size.Y, maxObjects, maxLevel, currentLevel) { }
 
         /// <summary>Initializes a new instance of the QuadTree class.</summary>
         /// <param name="position">The position of the boundary rectangle.</param>

@@ -34,9 +34,9 @@ namespace LongHorse.CollisionLib2D.Primitives
 
         public float Right => MathF.Max(MathF.Max(Points[0].X, Points[1].X), Points[2].X);
 
-        public float Top => MathF.Min(MathF.Min(Points[0].Y, Points[1].Y), Points[2].Y);
+        public float Top => MathF.Max(MathF.Max(Points[0].Y, Points[1].Y), Points[2].Y);
 
-        public float Bottom => MathF.Max(MathF.Max(Points[0].Y, Points[1].Y), Points[2].Y);
+        public float Bottom => MathF.Min(MathF.Min(Points[0].Y, Points[1].Y), Points[2].Y);
 
         public Vector2 NearestPoint(Vector2 p)
         {

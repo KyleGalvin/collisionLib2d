@@ -14,7 +14,7 @@ namespace LongHorse.CollisionLib2D
         public static bool Intersects(Rectangle r1, Rectangle r2)
         {
             if (r1.Right <= r2.Left || r1.Left >= r2.Right) return false;
-            if (r1.Top >= r2.Bottom || r1.Bottom <= r2.Top) return false;
+            if (r1.Bottom >= r2.Top || r1.Top <= r2.Bottom) return false;
             return true;
         }
 
@@ -204,7 +204,7 @@ namespace LongHorse.CollisionLib2D
         {
             return new Vector2(
                     MathF.Min(MathF.Max(p.X, r.Left), r.Right),
-                    MathF.Min(MathF.Max(p.Y, r.Top), r.Bottom)
+                    MathF.Min(MathF.Max(p.Y, r.Bottom), r.Top)
                 );
         }
         public static Vector2 NearestPoint(this Vector2 p, Circle c)

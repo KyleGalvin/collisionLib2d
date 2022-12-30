@@ -21,8 +21,8 @@ namespace LongHorse.CollisionLib2D.Primitives
 
         public Vector2 Center { get; set; }
         public Vector2 Size { get; set; }
-        public float Top => Center.Y - HalfHeight;
-        public float Bottom => Center.Y + HalfHeight;
+        public float Top => Center.Y + HalfHeight;
+        public float Bottom => Center.Y - HalfHeight;
         public float Left => Center.X - HalfHeight;
         public float Right => Center.X + HalfHeight;
         public float HalfWidth => Size.X * 0.5f;
@@ -46,14 +46,14 @@ namespace LongHorse.CollisionLib2D.Primitives
         /// <param name="top">The y-coordinate of the top edge of the boundary rectangle.</param>
         public void SetTop(float top)
         {
-            Center = new Vector2(Center.X, top + HalfHeight);
+            Center = new Vector2(Center.X, top - HalfHeight);
         }
 
         /// <summary>Updates the bottom value of the Rectangle while maintaining the same width, height, left, and right values.</summary>
         /// <param name="bottom">The y-coordinate of the bottom edge of the boundary rectangle.</param>
         public void SetBottom(float bottom)
         {
-            Center = new Vector2(Center.X, bottom - HalfHeight);
+            Center = new Vector2(Center.X, bottom + HalfHeight);
         }
 
         public Vector2 NearestPoint(Vector2 p)
