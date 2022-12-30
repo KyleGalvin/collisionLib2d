@@ -17,9 +17,11 @@ namespace LongHorse.CollisionLib2D.Primitives
             get
             {
                 //centroid
-                var ab = Points[0] + Points[1] / 2.0f;
-                var ac = Points[0] + Points[2] / 2.0f;
-                return new LineSegment(ab, Points[2]).Intersection(new LineSegment(ac, Points[1]));
+                var centroid = (Points[0] + Points[1] + Points[2]) / 3.0f;
+                return centroid;
+                //var ab = Points[0] + Points[1] / 2.0f;
+                //var ac = Points[0] + Points[2] / 2.0f;
+                //return new LineSegment(ab, Points[2]).Intersection(new LineSegment(ac, Points[1]));
             }
             set
             {
