@@ -8,7 +8,7 @@ namespace XunitTests
     [Trait("Module", "Collision")]
     [Trait("Module", "Geometry")]
     [Trait("Category", "Unit")]
-    public class CollisionTests
+    public class PrimitiveIntersectionTests
     {
         Rectangle _unitRectangle = new Rectangle() { Size = new Vector2(1.0f, 1.0f), Center = new Vector2(0.0f, 0.0f) };
         Circle _unitCircle = new Circle() { Radius = 0.5f, Center = new Vector2(0.0f, 0.0f) };
@@ -19,7 +19,6 @@ namespace XunitTests
         public void Circle_Circle_Collision(Circle c, bool intersectionExpected)
         {
             Assert.Equal(intersectionExpected, _unitCircle.Intersects(c));
-
         }
 
         [Theory]
