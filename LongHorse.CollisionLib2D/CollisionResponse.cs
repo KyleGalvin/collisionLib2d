@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LongHorse.CollisionLib2D
 {
@@ -28,9 +26,9 @@ namespace LongHorse.CollisionLib2D
 
             //we have one or more objects that our circle will collide with on the way to targetDestination.
             //Lets find the nearest one to us, and find the edge of it that is nearest to us. This gives us the specific point of collision.
-            var nearestEdge = circle.NearestEdge(firstCollisionObjects);
+            var nearestPoint = circle.NearestPoint(firstCollisionObjects);
 
-            var bounceVector = RedirectAlongCollisionEdge(circle, nearestEdge, targetDestination, linearProjection);
+            var bounceVector = RedirectAlongCollisionEdge(circle, nearestPoint, targetDestination, linearProjection);
             var newTarget = linearProjection + bounceVector;
 
             var midpointCircle = new Circle() { Radius = circle.Radius, Center = linearProjection };
@@ -39,9 +37,11 @@ namespace LongHorse.CollisionLib2D
             return finalDestination;
         }
 
-        private static Vector2 RedirectAlongCollisionEdge(Circle circle, LineSegment nearestEdge, Vector2 targetDestination, Vector2 linearProjection)
+        private static Vector2 RedirectAlongCollisionEdge(Circle circle, Vector2 nearestPointToCircle, Vector2 targetDestination, Vector2 linearProjection)
         {
-            var normalizedEdge = Vector2.Normalize(nearestEdge.Points[0] - nearestEdge.Points[1]);
+            var zeroCentered = nearestPointToCircle - circle.Center;
+            var rotated90 = new Vector2(zeroCentered.Y * -1, zeroCentered.X);
+            var normalizedEdge = Vector2.Normalize(rotated90);
             var successfulDistanceSquared = Vector2.DistanceSquared(circle.Center, linearProjection);
             var targetDistanceSquared = Vector2.DistanceSquared(circle.Center, targetDestination);
             var remainingDistance = Math.Sqrt(targetDistanceSquared) - Math.Sqrt(successfulDistanceSquared);
@@ -82,45 +82,22 @@ namespace LongHorse.CollisionLib2D
             return (nearestSuccess, firstCollisionObjects);
         }
 
-        private static LineSegment NearestEdge(this Circle circle, IEnumerable<IBoundingArea> firstCollisionObjects)
+        private static Vector2 NearestPoint(this Circle circle, IEnumerable<IBoundingArea> firstCollisionObjects)
         {
-            IBoundingArea nearestShape = null;
             float distanceSquaredToNearestShape = float.MaxValue;
+            Vector2 nearestPoint = circle.Center;
             foreach (var obj in firstCollisionObjects)
             {
-                var distanceSquaredFromCircle = Vector2.DistanceSquared(obj.NearestPoint(circle.Center), circle.Center);
+                var nearestPointToObj = obj.NearestPoint(circle.Center);
+                var distanceSquaredFromCircle = Vector2.DistanceSquared(nearestPointToObj, circle.Center);
                 if (distanceSquaredFromCircle < distanceSquaredToNearestShape)
                 {
-
-                    //TODO: If you hit a corner shared by two objects, the one chosen here is arbitrary
-                    // but the choice matters.
-                    nearestShape = obj;
+                    nearestPoint = nearestPointToObj;
                     distanceSquaredToNearestShape = distanceSquaredFromCircle;
                 }
             }
 
-            var edges = nearestShape.BoundingType switch
-            {
-                BoundingType.Triangle => ((Triangle)nearestShape).GetEdges(),
-                BoundingType.Rectangle => ((Rectangle)nearestShape).GetEdges(),
-                BoundingType.LineSegment => new LineSegment[1] { ((LineSegment)nearestShape) },
-                _ => throw new NotImplementedException() //TODO: Circles TBD
-            };
-            LineSegment nearestEdge = null;
-            float distanceSquaredToNearestEdge = float.MaxValue;
-            foreach (var e in edges)
-            {
-                var distanceSquaredFromCircle = Vector2.DistanceSquared(e.NearestPoint(circle.Center), circle.Center);
-                if (distanceSquaredFromCircle < distanceSquaredToNearestEdge)
-                {
-                    //TODO: If you hit a corner, the one chosen here is arbitrary
-                    // but the choice matters.
-                    nearestEdge = e;
-                    distanceSquaredToNearestEdge = distanceSquaredFromCircle;
-                }
-            }
-
-            return nearestEdge;
+            return nearestPoint;
         }
     }
 }

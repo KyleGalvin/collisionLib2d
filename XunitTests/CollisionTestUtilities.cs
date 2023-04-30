@@ -1,5 +1,6 @@
 ﻿using LongHorse.CollisionLib2D;
 using LongHorse.CollisionLib2D.Primitives;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
@@ -253,6 +254,36 @@ namespace XunitTests
                 },
                 new Vector2(0.5f,0)
             };
+
+            //line segment points reversed from previous
+            yield return new object[]
+            {
+                new Circle() { Radius = 0.5f, Center = new Vector2(0, 0) },
+                new Vector2(2, 0),
+                new IBoundingArea[]
+                {
+                    new LineSegment(new Vector2(3, 0), new Vector2(1, 0)),
+                },
+                new Vector2(0.5f,0)
+            };
+
+            //collide equally on two points should come to a full stop
+            yield return new object[]
+            {
+                new Circle() { Radius = 0.5f, Center = new Vector2(0, 0) },
+                new Vector2(2, 0),
+                new IBoundingArea[]
+                {
+                    new LineSegment(new Vector2(1, 0), new Vector2(3, 1)),
+                    new LineSegment(new Vector2(1, 0), new Vector2(3, -1)),
+                },
+                new Vector2(0.5f,0)
+            };
+
+            //throw new NotImplementedException("Glancing collisions on a corner not done");
+            //throw new NotImplementedException("multiple shape collisions not done");
+            //throw new NotImplementedException("multiple line segment collisions not done");
+            //throw new NotImplementedException("redirection into another object not done");
         }
     }
 
