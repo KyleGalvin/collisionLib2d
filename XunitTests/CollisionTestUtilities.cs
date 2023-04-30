@@ -1,4 +1,5 @@
-﻿using LongHorse.CollisionLib2D.Primitives;
+﻿using LongHorse.CollisionLib2D;
+using LongHorse.CollisionLib2D.Primitives;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
@@ -188,6 +189,70 @@ namespace XunitTests
             {
                 yield return boundingArea;
             }
+        }
+    }
+
+    public class CollisionResponseGenerator : IEnumerable<object[]>
+    {
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return new object[] 
+            { 
+                new Circle() { Radius = 0.5f, Center = new Vector2(0, 0) },
+                new Vector2(2, 0),
+                new IBoundingArea[] 
+                {
+                    new Rectangle() { Center = new Vector2(2, 0), Size = new Vector2(1, 1) }
+                },
+                new Vector2(1,0)
+            };
+
+            yield return new object[]
+            {
+                new Circle() { Radius = 0.5f, Center = new Vector2(0, 0) },
+                new Vector2(2, 0),
+                new IBoundingArea[]
+                {
+                    new Triangle(new Vector2(1, 1), new Vector2(1, -1), new Vector2(2, 0)),
+                },
+                new Vector2(0.5f,0)
+            };
+
+            //Circle can go straight through a line segment (or any shape) if it clears it all at once
+            yield return new object[]
+            {
+                new Circle() { Radius = 0.5f, Center = new Vector2(0, 0) },
+                new Vector2(2, 0),
+                new IBoundingArea[]
+                {
+                    new LineSegment(new Vector2(1, 1), new Vector2(1, -1)),
+                },
+                new Vector2(2,0)
+            };
+
+            yield return new object[]
+            {
+                new Circle() { Radius = 0.5f, Center = new Vector2(0, 0) },
+                new Vector2(2, 0),
+                new IBoundingArea[]
+                {
+                    new LineSegment(new Vector2(2, 1), new Vector2(2, -1)),
+                },
+                new Vector2(1.5f,0)
+            };
+
+            //collide with the end of a line segment head-on
+            yield return new object[]
+            {
+                new Circle() { Radius = 0.5f, Center = new Vector2(0, 0) },
+                new Vector2(2, 0),
+                new IBoundingArea[]
+                {
+                    new LineSegment(new Vector2(1, 0), new Vector2(3, 0)),
+                },
+                new Vector2(0.5f,0)
+            };
         }
     }
 

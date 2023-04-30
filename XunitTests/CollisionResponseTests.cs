@@ -15,25 +15,25 @@ namespace XunitTests
     public class CollisionResponseTests
     {
 
-        [Fact]
-        public void Response()
+        [Theory]
+        [ClassData(typeof(CollisionResponseGenerator))]
+        public void Response(Circle movingObject, Vector2 target, IBoundingArea[] obstacles, Vector2 destination)
         {
-            //set up a quadtree with a single collidable rect in it
             var treeSize = 500;
             var quadTree = new QuadTree(treeSize, treeSize);
-            var collisionObject = new Rectangle() { Center = new System.Numerics.Vector2(2, 0), Size = new System.Numerics.Vector2(1, 1) };
-            quadTree.Insert(collisionObject);
+            quadTree.InsertRange(obstacles);
 
-            //create a moving object we will collide into the rect
-            var movingObject = new Circle() { Radius = 0.5f, Center = new System.Numerics.Vector2(0,0)};
-            var destination = movingObject.Move(quadTree, new System.Numerics.Vector2(2, 0));
+            var actualDestination = movingObject.Move(quadTree, target);
 
-            var expectedDestination = new Vector2(1, 0);
-            var updatedObject = new Circle() { Radius = 0.5f, Center = destination };
-            var distance = Vector2.Distance(destination, expectedDestination);
+            var updatedObject = new Circle() { Radius = movingObject.Radius, Center = actualDestination };
+            var distance = Vector2.Distance(destination, actualDestination);
 
-            Assert.False(updatedObject.Intersects(collisionObject));
-            Assert.True(distance < 0.00001);
+            foreach (var obs in obstacles) 
+            {
+                Assert.False(updatedObject.Intersects(obs));
+            }
+            
+            Assert.True(distance < 0.00001, $"expected destination {destination} but got {actualDestination} instead");
         }
     }
 }
