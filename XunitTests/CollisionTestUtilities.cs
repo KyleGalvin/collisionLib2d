@@ -198,6 +198,7 @@ namespace XunitTests
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         public IEnumerator<object[]> GetEnumerator()
         {
+
             yield return new object[] 
             { 
                 new Circle() { Radius = 0.5f, Center = new Vector2(0, 0) },
@@ -243,6 +244,18 @@ namespace XunitTests
                 new Vector2(1.5f,0)
             };
 
+            //values in the -x quadrant to check the vector math
+            yield return new object[]
+            {
+                new Circle() { Radius = 0.5f, Center = new Vector2(-5, 0) },
+                new Vector2(-3, 0),
+                new IBoundingArea[]
+                {
+                    new LineSegment(new Vector2(-3, 1), new Vector2(-3, -1)),
+                },
+                new Vector2(-3.5f,0)
+            };
+
             //collide with the end of a line segment head-on
             yield return new object[]
             {
@@ -278,6 +291,19 @@ namespace XunitTests
                     new LineSegment(new Vector2(1, 0), new Vector2(3, -1)),
                 },
                 new Vector2(0.5f,0)
+            };
+
+            //multi-collision does not go through second obj
+            yield return new object[]
+            {
+                new Circle() { Radius = 0.5f, Center = new Vector2(-3, 0) },
+                new Vector2(7, 0),
+                new IBoundingArea[]
+                {
+                    new Triangle(new Vector2(-10, -10), new Vector2(10, 10), new Vector2(10,-10)),
+                    new Rectangle(1.0f, 10.0f, 5.0f, 10.0f),
+                },
+                new Vector2(0.5f,1.21f)
             };
 
             //throw new NotImplementedException("Glancing collisions on a corner not done");

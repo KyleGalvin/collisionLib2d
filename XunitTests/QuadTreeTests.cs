@@ -32,6 +32,33 @@ namespace XunitTests
         }
 
         [Fact]
+        public void QuadTree_InsertOutOfBounds_Unsuccessful()
+        {
+            var treeSize = 500;
+            var quadTree = new QuadTree(treeSize, treeSize);
+
+            var rect = new Rectangle() { Size = _unitRectangle.Size, Center = new Vector2(-1,-1)};
+            var success = quadTree.Insert(rect);
+            Assert.False(success);
+            success = quadTree.InsertRange( new IBoundingArea[] { rect });
+            Assert.False(success);
+        }
+
+        [Fact]
+        public void QuadTree_InsertInBounds_Successful()
+        {
+            var treeSize = 500;
+            var quadTree = new QuadTree(treeSize, treeSize);
+
+            var rect = new Rectangle() { Size = _unitRectangle.Size, Center = new Vector2(5, 5) };
+            var success = quadTree.Insert(rect);
+            Assert.True(success);
+
+            success = quadTree.InsertRange(new IBoundingArea[] { rect });
+            Assert.True(success);
+        }
+
+        [Fact]
         public void QuadTree_MaxObjects_Exceeded()
         {
             var numberOfObjects = 10;

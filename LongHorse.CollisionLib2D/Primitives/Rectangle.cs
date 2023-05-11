@@ -23,8 +23,8 @@ namespace LongHorse.CollisionLib2D.Primitives
         public Vector2 Size { get; set; }
         public float Top => Center.Y + HalfHeight;
         public float Bottom => Center.Y - HalfHeight;
-        public float Left => Center.X - HalfHeight;
-        public float Right => Center.X + HalfHeight;
+        public float Left => Center.X - HalfWidth;
+        public float Right => Center.X + HalfWidth;
         public float HalfWidth => Size.X * 0.5f;
         public float HalfHeight => Size.Y * 0.5f;
 

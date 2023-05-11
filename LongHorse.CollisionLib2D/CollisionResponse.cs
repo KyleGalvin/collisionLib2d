@@ -26,33 +26,34 @@ namespace LongHorse.CollisionLib2D
 
             //we have one or more objects that our circle will collide with on the way to targetDestination.
             //Lets find the nearest one to us, and find the edge of it that is nearest to us. This gives us the specific point of collision.
-            var nearestPoint = circle.NearestPoint(firstCollisionObjects);
+            var projectedCircle = new Circle() { Radius = circle.Radius, Center = linearProjection };
+            var nearestPoint = projectedCircle.NearestPoint(firstCollisionObjects);
 
             var bounceVector = RedirectAlongCollisionEdge(circle, nearestPoint, targetDestination, linearProjection);
             var newTarget = linearProjection + bounceVector;
 
-            var midpointCircle = new Circle() { Radius = circle.Radius, Center = linearProjection };
-            var (finalDestination, _) = midpointCircle.NearestLinearProjection(map, newTarget);
+            var (finalDestination, _) = projectedCircle.NearestLinearProjection(map, newTarget);
 
             return finalDestination;
         }
 
         private static Vector2 RedirectAlongCollisionEdge(Circle circle, Vector2 nearestPointToCircle, Vector2 targetDestination, Vector2 linearProjection)
         {
-            var zeroCentered = nearestPointToCircle - circle.Center;
-            var rotated90 = new Vector2(zeroCentered.Y * -1, zeroCentered.X);
-            var normalizedEdge = Vector2.Normalize(rotated90);
-            var successfulDistanceSquared = Vector2.DistanceSquared(circle.Center, linearProjection);
-            var targetDistanceSquared = Vector2.DistanceSquared(circle.Center, targetDestination);
-            var remainingDistance = Math.Sqrt(targetDistanceSquared) - Math.Sqrt(successfulDistanceSquared);
-            var remainingDirection = Vector2.Normalize(circle.Center - targetDestination);
+            var collisionDirection = nearestPointToCircle - linearProjection;
+            var normalizedCollisionDirection = Vector2.Normalize(collisionDirection);
+            var collisionOrthoVector = new Vector2(collisionDirection.Y * -1, collisionDirection.X);
+            var normalizedCollisionOrthoVector = Vector2.Normalize(collisionOrthoVector);
+            var successfulDistance = Vector2.Distance(circle.Center, linearProjection);
+            var targetDistance = Vector2.Distance(circle.Center, targetDestination);
+            var remainingDistance = targetDistance - successfulDistance;
+            var remainingDirection = Vector2.Normalize(targetDestination - linearProjection);
 
-            var remainingDistanceOrtho = Vector2.Dot(Vector2.Multiply((float)remainingDistance, remainingDirection), normalizedEdge);
-            var newTarget = Vector2.Multiply(remainingDistanceOrtho, normalizedEdge);
+            var remainingDistanceOrtho = Vector2.Dot(Vector2.Multiply((float)remainingDistance, remainingDirection), normalizedCollisionOrthoVector);
+            var newTarget = Vector2.Multiply(remainingDistanceOrtho, normalizedCollisionOrthoVector);
             return newTarget;
         }
 
-        private static (Vector2, IEnumerable<IBoundingArea>) NearestLinearProjection(this Circle circle, QuadTree map, Vector2 targetDestination, int precision = 6)
+        private static (Vector2, IEnumerable<IBoundingArea>) NearestLinearProjection(this Circle circle, QuadTree map, Vector2 targetDestination, int precision = 16)
         {
             var proposedDestination = targetDestination;
             var farthestFailure = targetDestination;
@@ -63,17 +64,18 @@ namespace LongHorse.CollisionLib2D
             {
                 var testCircle = new Circle() { Radius = circle.Radius, Center = proposedDestination };
                 var potentialCollisions = map.FindObjects(testCircle);//broad phase collision detection
-                firstCollisionObjects = potentialCollisions.Where(c => c.Intersects(testCircle));//narrow phase collision detection
-                if (!firstCollisionObjects.Any() && i == 0)
+                var currentCollisionObjects = potentialCollisions.Where(c => c.Intersects(testCircle));//narrow phase collision detection
+                if (!currentCollisionObjects.Any() && i == 0)
                 {
                     return (proposedDestination, null);//No contest; The initial desired position can be reached without collision.
                 }
-                else if (!firstCollisionObjects.Any())
+                else if (!currentCollisionObjects.Any())
                 {
                     nearestSuccess = proposedDestination;
                 }
                 else
                 {
+                    firstCollisionObjects = currentCollisionObjects;
                     farthestFailure = proposedDestination;
                 }
                 proposedDestination = (nearestSuccess + farthestFailure) / 2.0f;
