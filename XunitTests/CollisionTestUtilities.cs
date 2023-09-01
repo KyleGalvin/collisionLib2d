@@ -307,10 +307,10 @@ namespace XunitTests
                 new Vector2(0.5f,1.20712f)
             };
 
-            //throw new NotImplementedException("Glancing collisions on a corner not done");
-            //throw new NotImplementedException("multiple shape collisions not done");
-            //throw new NotImplementedException("multiple line segment collisions not done");
-            //throw new NotImplementedException("redirection into another object not done");
+            throw new NotImplementedException("Glancing collisions on a corner not done");
+            throw new NotImplementedException("multiple shape collisions not done");
+            throw new NotImplementedException("multiple line segment collisions not done");
+            throw new NotImplementedException("redirection into another object not done");
         }
     }
 

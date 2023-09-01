@@ -34,8 +34,8 @@ namespace XunitTests
                 Assert.False(updatedObject.Intersects(obs));
             }
 
-            //the error tolerance on this one is not very tight
-            Assert.True(distance < 0.001, $"expected destination {destination} but got {actualDestination} instead");
+            //the precision on this one is not very tight
+            Assert.True(distance < 0.0001, $"expected destination {destination} but got {actualDestination} instead");
         }
     }
 }
