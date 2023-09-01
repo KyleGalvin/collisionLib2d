@@ -233,6 +233,7 @@ namespace XunitTests
                 new Vector2(2,0)
             };
 
+            //straight collision perpendicular to a wall stops dead.
             yield return new object[]
             {
                 new Circle() { Radius = 0.5f, Center = new Vector2(0, 0) },
@@ -303,7 +304,7 @@ namespace XunitTests
                     new Triangle(new Vector2(-10, -10), new Vector2(10, 10), new Vector2(10,-10)),
                     new Rectangle(1.0f, 10.0f, 5.0f, 10.0f),
                 },
-                new Vector2(0.5f,1.21f)
+                new Vector2(0.5f,1.20712f)
             };
 
             //throw new NotImplementedException("Glancing collisions on a corner not done");

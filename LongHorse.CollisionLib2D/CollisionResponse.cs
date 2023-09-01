@@ -78,6 +78,9 @@ namespace LongHorse.CollisionLib2D
                     firstCollisionObjects = currentCollisionObjects;
                     farthestFailure = proposedDestination;
                 }
+
+                //if we start getting too precise, floating point error breaks our comparator operators
+                if (Vector2.DistanceSquared(nearestSuccess, farthestFailure) < 0.0000000001) break;
                 proposedDestination = (nearestSuccess + farthestFailure) / 2.0f;
             }
 
