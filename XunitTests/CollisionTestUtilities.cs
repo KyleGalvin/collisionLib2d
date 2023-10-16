@@ -198,7 +198,6 @@ namespace XunitTests
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         public IEnumerator<object[]> GetEnumerator()
         {
-
             yield return new object[] 
             { 
                 new Circle() { Radius = 0.5f, Center = new Vector2(0, 0) },
@@ -294,7 +293,7 @@ namespace XunitTests
                 new Vector2(0.5f,0)
             };
 
-            //multi-collision does not go through second obj
+            //multi-collision does not go through second obj (deflected twice)
             yield return new object[]
             {
                 new Circle() { Radius = 0.5f, Center = new Vector2(-3, 0) },
@@ -307,10 +306,100 @@ namespace XunitTests
                 new Vector2(0.5f,1.20712f)
             };
 
-            throw new NotImplementedException("Glancing collisions on a corner not done");
-            throw new NotImplementedException("multiple shape collisions not done");
-            throw new NotImplementedException("multiple line segment collisions not done");
-            throw new NotImplementedException("redirection into another object not done");
+            //multi-collision does not go through second obj (deflected then stopped)
+            yield return new object[]
+            {
+                new Circle() { Radius = 0.5f, Center = new Vector2(0, 0.25f) },
+                new Vector2(6, 0),
+                new IBoundingArea[]
+                {
+                    new Triangle(new Vector2(0, -20), new Vector2(5, 0), new Vector2(8, 0)),
+                    new Triangle(new Vector2(0, 20), new Vector2(5, 0), new Vector2(8, 0)),
+                },
+                new Vector2(4.5f,0)
+            };
+
+            //throw new NotImplementedException("Corner hits with multiple triangles are a snagging issue still");
+            //multiple triangles at collision point doesnt snag
+            yield return new object[]
+            {
+                new Circle() { Radius = 0.5f, Center = new Vector2(0, 3) },
+                new Vector2(0, -3),
+                new IBoundingArea[]
+                {
+                    new Triangle(new Vector2(10, -10), new Vector2(-10, 10), new Vector2(-10, -10)),
+                    new Triangle(new Vector2(0, 0), new Vector2(10, -10), new Vector2(10, -5)),
+                },
+                new Vector2(1.41f,-0.14f)
+            };
+
+            //multiple triangles sliding over a collision point doesnt snag
+            yield return new object[]
+            {
+                new Circle() { Radius = 0.5f, Center = new Vector2(-0.1f, 3) },
+                new Vector2(-0.1f, -3),
+                new IBoundingArea[]
+                {
+                    new Triangle(new Vector2(10, -10), new Vector2(-10, 10), new Vector2(-10, -10)),
+                    new Triangle(new Vector2(0, 0), new Vector2(10, -10), new Vector2(10, -5)),
+                },
+                new Vector2(1.41f,-0.14f)
+            };
+
+            //Trouble case found in the wild.
+            //Caused by floating point rounding errors when touching two objects simultaneously (in rare cases)
+            yield return new object[]
+            {
+                new Circle() { Radius = 12.5f, Center = new Vector2(-682.5261f, 43.176544f) },
+                new Vector2(-682.5261f, 53.176544f),
+                new IBoundingArea[]
+                {
+                    new Triangle(new Vector2(-750.2f, -289.137f), new Vector2(-711.322f, -301.144f), new Vector2(-694.952f, 45.0391f)),
+                    new Triangle(new Vector2(-750.2f, 403.228f), new Vector2(-750.2f, -289.137f), new Vector2(-694.952f, 45.0391f)),//present but unecessary
+                    new Triangle(new Vector2(-750.2f, 403.228f), new Vector2(-694.952f, 45.0391f), new Vector2(-670.397f, 141.09f))
+                },
+                new Vector2(-680.26215f,52.032623f)
+            };
+
+            yield return new object[]
+{
+                new Circle() { Radius = 12.5f, Center = new Vector2(-682.5261f, 43.176514f) },
+                new Vector2(-682.5261f, 53.176514f),
+                new IBoundingArea[]
+                {
+                    new Triangle(new Vector2(-750.2f, -289.137f), new Vector2(-711.322f, -301.144f), new Vector2(-694.952f, 45.0391f)),
+                    new Triangle(new Vector2(-750.2f, 403.228f), new Vector2(-750.2f, -289.137f), new Vector2(-694.952f, 45.0391f)),//present but unecessary
+                    new Triangle(new Vector2(-750.2f, 403.228f), new Vector2(-694.952f, 45.0391f), new Vector2(-670.397f, 141.09f))
+                },
+                new Vector2(-680.2593f,52.043846f)
+            };
+
+            yield return new object[]
+            {
+                new Circle() { Radius = 12.5f, Center = new Vector2(-682.5261f, 43.17652f) },
+                new Vector2(-682.5261f, 53.17652f),
+                new IBoundingArea[]
+                {
+                    new Triangle(new Vector2(-750.2f, -289.137f), new Vector2(-711.322f, -301.144f), new Vector2(-694.952f, 45.0391f)),
+                    new Triangle(new Vector2(-750.2f, 403.228f), new Vector2(-750.2f, -289.137f), new Vector2(-694.952f, 45.0391f)),//present but unecessary
+                    new Triangle(new Vector2(-750.2f, 403.228f), new Vector2(-694.952f, 45.0391f), new Vector2(-670.397f, 141.09f))
+                },
+                new Vector2(-680.26215f,52.0326f)
+            };
+            
+            //Single triangle problem
+            yield return new object[]
+            {
+                new Circle() { Radius = 12.5f, Center = new Vector2(-478.6976f,318.96674f) },
+                new Vector2(-488.6976f,318.96674f),
+                new IBoundingArea[]
+                {
+                    new Triangle(new Vector2(-498.513f,325.187f),new Vector2(-430.987f,349.2f),new Vector2(-750.2f,403.228f)),
+                },
+                new Vector2(-487.57492f, 315.80978f)
+            };
+
+
         }
     }
 

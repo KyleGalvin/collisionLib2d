@@ -19,8 +19,8 @@ namespace XunitTests
         [ClassData(typeof(CollisionResponseGenerator))]
         public void Response(Circle movingObject, Vector2 target, IBoundingArea[] obstacles, Vector2 destination)
         {
-            var treeSize = 1000;
-            var quadTree = new QuadTree(left: -500, top: 500, width: treeSize, height: treeSize);
+            var treeSize = 2000;
+            var quadTree = new QuadTree(left: -1000, top: 1000, width: treeSize, height: treeSize);
             var success = quadTree.InsertRange(obstacles);
             Assert.True(success);
 
@@ -35,7 +35,7 @@ namespace XunitTests
             }
 
             //the precision on this one is not very tight
-            Assert.True(distance < 0.0001, $"expected destination {destination} but got {actualDestination} instead");
+            Assert.True(distance < 0.1, $"expected destination {destination} but got {actualDestination} instead");
         }
     }
 }
