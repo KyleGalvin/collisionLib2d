@@ -153,12 +153,15 @@ namespace LongHorse.CollisionLib2D
 
         /// <summary> Inserts a collection of objects into the QuadTree.</summary>
         /// <param name="objects">The collection of objects to insert.</param>
-        public void InsertRange(IEnumerable<IBoundingArea> objects)
+        public bool InsertRange(IEnumerable<IBoundingArea> objects)
         {
+            var result = true;
             foreach(var obj in objects)
             {
-                Insert(obj);
+                 result = result && Insert(obj);
             }
+
+            return result;
         }
 
         /// <summary>Returns the total number of obejcts in the QuadTree and its children.</summary>
